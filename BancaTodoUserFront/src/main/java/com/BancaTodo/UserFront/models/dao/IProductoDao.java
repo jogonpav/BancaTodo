@@ -17,7 +17,7 @@ public interface IProductoDao extends CrudRepository<Producto, Long> {
 	List<Producto> findProductosByIdClienteDistintctId(long idProducto, long idCliente );
 	
 	//listar producto diferente al seleccionado para un cliente id dirferente al especificado
-	@Query(value = "SELECT * FROM productos WHERE cliente_id!=?2 ", nativeQuery = true)
+	@Query(value = "SELECT * FROM productos WHERE cliente_id!=?1 ", nativeQuery = true)
 	List<Producto> findByDistintctIdCliente(long clienteId);
 	
 }

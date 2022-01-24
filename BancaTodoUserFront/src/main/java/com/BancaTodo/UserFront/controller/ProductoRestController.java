@@ -38,16 +38,17 @@ public class ProductoRestController {
 	public Optional<Producto> getById(@PathVariable("id") long id){		
 		return productoService.findById(id);
 	}
-	//
+	//obtiene productos para cliente específico, distinto producto id
 	@GetMapping("/producto/{idProducto}/cliente/{idCliente}")
 	public List<Producto>findProductosByIdClienteDistintctId(@PathVariable("idProducto") long idProducto, @PathVariable("idCliente") long idCliente){
 		return productoService.findProductosByIdClienteDistintctId(idProducto, idCliente);		
 	}
-	@GetMapping("/producto/{idProducto}/cliente/{idCliente}")
-	public List<Producto>findProductosOthersIdDistintctIdCliente(@PathVariable("idProducto") long idProducto, @PathVariable("idCliente") long idCliente){
+	//obtiene los productos diferente a cliente id
+	@GetMapping("/distintc/cliente/{idCliente}")
+	public List<Producto>findByDistintctIdCliente(@PathVariable("idCliente") long idCliente){
 		return productoService.findByDistintctIdCliente(idCliente);		
 	}
-	
+	//crea producto para cliente específico
 	@PostMapping("/Cliente/{idCliente}/create")
 	public ResponseEntity<?> add(@RequestBody Producto producto, @PathVariable("idCliente") long idCliente){
 		producto.setClienteId(idCliente);

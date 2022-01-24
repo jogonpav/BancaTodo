@@ -46,14 +46,12 @@ public class ClienteRestController {
 		Cliente cliente = clienteService.getById(id);
 		return new ResponseEntity(cliente, HttpStatus.OK);
 	}
-	/*
-	 * public Cliente getById(@PathVariable("id") long id) { return
-	 * clienteService.getById(id); }
-	 */
+	
 	
 	//Crea un nuevo cliente
 	@PostMapping("/cliente/create")
 	public ResponseEntity<?> create(@RequestBody Cliente cliente) {
+		System.out.println(cliente.getFechaCreacion());
 		clienteService.add(cliente);
 		return new ResponseEntity(new Mensaje("Producto creado"), HttpStatus.OK);
 	}
