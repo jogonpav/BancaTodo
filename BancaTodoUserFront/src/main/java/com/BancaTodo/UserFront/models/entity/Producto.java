@@ -19,24 +19,46 @@ public class Producto {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(name="tipo_cuenta")
+	@Column(name="tipo")
 	private String tipoCuenta;
 	
-	@Column(name="numero_cuenta")
+	@Column(name="numero")
 	private int numeroCuenta;
+	
+	
+	@Column(name="estado")
+	private String estado;
 	
 	@Column(name = "fecha_apertura")
 	@Temporal(TemporalType.DATE)
 	private Date fechaApertura;
 	
-	@Column(name="estado")
-	private String estado;
 	
 	@Column(name="saldo")
-	private int saldo;
+	private double saldo;
 	
-	@Column(name = "user_id")
-	private long userId;
+	@Column(name = "cliente_id")
+	private long clienteId;
+	
+	
+
+	public Producto() {
+	}
+	
+	
+
+	public Producto(Long id, String tipoCuenta, int numeroCuenta, String estado, Date fechaApertura, double saldo,
+			long clienteId) {
+		this.id = id;
+		this.tipoCuenta = tipoCuenta;
+		this.numeroCuenta = numeroCuenta;
+		this.estado = estado;
+		this.fechaApertura = fechaApertura;
+		this.saldo = saldo;
+		this.clienteId = clienteId;
+	}
+
+
 
 	public Long getId() {
 		return id;
@@ -78,20 +100,20 @@ public class Producto {
 		this.estado = estado;
 	}
 
-	public int getSaldo() {
+	public double getSaldo() {
 		return saldo;
 	}
 
-	public void setSaldo(int saldo) {
+	public void setSaldo(double saldo) {
 		this.saldo = saldo;
 	}
 
-	public long getUserId() {
-		return userId;
+	public long getClienteId() {
+		return clienteId;
 	}
 
-	public void setUserId(long userId) {
-		this.userId = userId;
+	public void setClienteId(long clienteId) {
+		this.clienteId = clienteId;
 	}
 	
 	

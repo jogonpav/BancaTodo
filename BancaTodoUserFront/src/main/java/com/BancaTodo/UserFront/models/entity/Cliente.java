@@ -11,18 +11,17 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.BancaTodo.UserFront.dto.ClienteDto;
+
 @Entity 
-@Table(name="users")
-public class User {
+@Table(name="clientes")
+public class Cliente {
 	
 	@Id 
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 	
-	//@Column cuando se llama igual se puede omitir el column
-	@Column(name="tipo_usuario")
-	private String tipoUsuario;
-	
+	//@Column cuando se llama igual se puede omitir el column	
 	@Column(name="tipo_identificacion")
 	private String tipoIdentificacion;
 	
@@ -35,8 +34,8 @@ public class User {
 	@Column(name="apellidos")
 	private String apellidos;
 	
-	@Column(name="email")
-	private String email;
+	@Column(name="correo")
+	private String correo;
 	
 	@Column(name="fecha_nacimiento")
 	@Temporal(TemporalType.DATE)
@@ -44,23 +43,34 @@ public class User {
 	
 	@Column(name="fecha_creacion")
 	@Temporal(TemporalType.DATE)
-	private Date fecha_creacion;
+	private Date fechaCreacion;
 	
 	
+	
+	
+	
+	/*public Cliente() {
+	}
+
+
+	public Cliente(String tipoIdentificacion, String numeroIdentificacion, String nombres, String apellidos,
+			String correo, Date fechaNacimiento, Date fechaCreacion) {
+		this.tipoIdentificacion = tipoIdentificacion;
+		this.numeroIdentificacion = numeroIdentificacion;
+		this.nombres = nombres;
+		this.apellidos = apellidos;
+		this.correo = correo;
+		this.fechaNacimiento = fechaNacimiento;
+		this.fechaCreacion = fechaCreacion;
+	}*/
+
+
 	public Long getId() {
 		return id;
 	}
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public String getTipoUsuario() {
-		return tipoUsuario;
-	}
-
-	public void setTipoUsuario(String tipoUsuario) {
-		this.tipoUsuario = tipoUsuario;
 	}
 
 	public String getTipoIdentificacion() {
@@ -95,12 +105,12 @@ public class User {
 		this.apellidos = apellidos;
 	}
 
-	public String getEmail() {
-		return email;
+	public String getCorreo() {
+		return correo;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
+	public void setCorreo(String correo) {
+		this.correo = correo;
 	}
 
 	public Date getFechaNacimiento() {
@@ -111,12 +121,12 @@ public class User {
 		this.fechaNacimiento = fechaNacimiento;
 	}
 
-	public Date getFecha_creacion() {
-		return fecha_creacion;
+	public Date getFechaCreacion() {
+		return fechaCreacion;
 	}
 
-	public void setFecha_creacion(Date fecha_creacion) {
-		this.fecha_creacion = fecha_creacion;
+	public void setFechaCreacion(Date fechaCreacion) {
+		this.fechaCreacion = fechaCreacion;
 	}
 	
 

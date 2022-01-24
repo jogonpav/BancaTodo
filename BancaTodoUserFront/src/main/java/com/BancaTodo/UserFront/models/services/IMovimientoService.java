@@ -6,6 +6,7 @@ import com.BancaTodo.UserFront.models.entity.Movimiento;
 
 public interface IMovimientoService {
 	
-	public List<Movimiento> findAll();
+	public List<Movimiento> findBycuentaId(long cuentaId);
+	public void add(Movimiento movimiento);
 
 }

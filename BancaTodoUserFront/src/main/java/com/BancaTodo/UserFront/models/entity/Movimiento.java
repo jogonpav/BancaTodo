@@ -19,24 +19,49 @@ public class Movimiento {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(name="tipo")
-	private String tipo;
-	
-	@Column(name = "fecha")
-	@Temporal(TemporalType.DATE)
-	private Date fecha;
+	@Column(name="tipo_movimiento")
+	private String tipoMovimiento;
 	
 	@Column(name = "descripcion")
 	private String descripcion;
 	
-	@Column(name = "monto")
-	private int monto;
+	@Column(name = "saldo_inicial")	
+	private double saldoInicial;
+	
+	@Column(name = "valor")
+	private double valor;
+	
+	@Column(name = "saldo_final")	
+	private double saldoFinal;
 	
 	@Column(name = "tipo_debito")
 	private String tipoDebito;
 	
-	@Column(name = "producto_id")
-	private long productoId;
+	@Column(name = "cuenta_id")
+	private long cuentaId;
+	
+	@Column(name="cuenta_destino")
+	private long cuentaDestino;
+
+	@Column(name = "fecha")
+	//@Temporal(TemporalType.DATE)
+	private Date fecha;
+
+	public Movimiento() {
+	}
+
+	public Movimiento(String tipoMovimiento, String descripcion, double saldoInicial, double valor, double saldoFinal,
+			String tipoDebito, long cuentaId, long cuentaDestino, Date fecha) {
+		this.tipoMovimiento = tipoMovimiento;
+		this.descripcion = descripcion;
+		this.saldoInicial = saldoInicial;
+		this.valor = valor;
+		this.saldoFinal = saldoFinal;
+		this.tipoDebito = tipoDebito;
+		this.cuentaId = cuentaId;
+		this.cuentaDestino = cuentaDestino;
+		this.fecha = fecha;
+	}
 
 	public Long getId() {
 		return id;
@@ -46,20 +71,12 @@ public class Movimiento {
 		this.id = id;
 	}
 
-	public String getTipo() {
-		return tipo;
+	public String getTipoMovimiento() {
+		return tipoMovimiento;
 	}
 
-	public void setTipo(String tipo) {
-		this.tipo = tipo;
-	}
-
-	public Date getFecha() {
-		return fecha;
-	}
-
-	public void setFecha(Date fecha) {
-		this.fecha = fecha;
+	public void setTipoMovimiento(String tipoMovimiento) {
+		this.tipoMovimiento = tipoMovimiento;
 	}
 
 	public String getDescripcion() {
@@ -70,12 +87,28 @@ public class Movimiento {
 		this.descripcion = descripcion;
 	}
 
-	public int getMonto() {
-		return monto;
+	public double getSaldoInicial() {
+		return saldoInicial;
 	}
 
-	public void setMonto(int monto) {
-		this.monto = monto;
+	public void setSaldoInicial(double saldoInicial) {
+		this.saldoInicial = saldoInicial;
+	}
+
+	public double getValor() {
+		return valor;
+	}
+
+	public void setValor(double valor) {
+		this.valor = valor;
+	}
+
+	public double getSaldoFinal() {
+		return saldoFinal;
+	}
+
+	public void setSaldoFinal(double saldoFinal) {
+		this.saldoFinal = saldoFinal;
 	}
 
 	public String getTipoDebito() {
@@ -86,13 +119,30 @@ public class Movimiento {
 		this.tipoDebito = tipoDebito;
 	}
 
-	public long getProductoId() {
-		return productoId;
+	public long getCuentaId() {
+		return cuentaId;
 	}
 
-	public void setProductoId(long productoId) {
-		this.productoId = productoId;
+	public void setCuentaId(long cuentaId) {
+		this.cuentaId = cuentaId;
 	}
+
+	public long getCuentaDestino() {
+		return cuentaDestino;
+	}
+
+	public void setCuentaDestino(long cuentaDestino) {
+		this.cuentaDestino = cuentaDestino;
+	}
+
+	public Date getFecha() {
+		return fecha;
+	}
+
+	public void setFecha(Date fecha) {
+		this.fecha = fecha;
+	}	
+	
 	
 	
 
