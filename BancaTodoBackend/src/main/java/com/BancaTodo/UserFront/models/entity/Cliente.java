@@ -49,7 +49,7 @@ public class Cliente {
 	
 	
 	
-	/*public Cliente() {
+	public Cliente() {
 	}
 
 
@@ -62,7 +62,7 @@ public class Cliente {
 		this.correo = correo;
 		this.fechaNacimiento = fechaNacimiento;
 		this.fechaCreacion = fechaCreacion;
-	}*/
+	}
 
 
 	public Long getId() {
