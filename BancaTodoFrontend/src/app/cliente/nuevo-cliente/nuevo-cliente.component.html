@@ -1,0 +1,44 @@
+<div class="container-mt-5 mt-3" >
+  <div class="row">
+    <div class="col-md-4 mx-auto">
+      <form (ngSubmit)="onCreate()" novalidate #f="ngForm">
+        <div class="mb-3">
+          <label for="tipoIdentificacion" class="form-label">Tipo Identificación</label>
+          <input type="text" class="form-control" id="tipoIdentificacion" name="tipoIdentificacion" aria-describedby="emailHelp"
+          [(ngModel)]="tipoIdentificacion" required>
+        </div>
+        <div class="mb-3">
+          <label for="numIdentificacion" class="form-label">Número Identificación</label>
+          <input type="number" class="form-control" id="numIdentificacion" name="numIdentificacion" aria-describedby="emailHelp"
+          [(ngModel)]="numeroIdentificacion" required>
+        </div>
+        <div class="mb-3">
+          <label for="nombres" class="form-label">Nombres</label>
+          <input type="text" class="form-control" id="nombres" name="nombres" aria-describedby="emailHelp"
+          [(ngModel)]="nombres" required>
+        </div>
+        <div class="mb-3">
+          <label for="apellidos" class="form-label">Apellidos</label>
+          <input type="text" class="form-control" id="apellidos" name="apellidos" aria-describedby="emailHelp"
+          [(ngModel)]="apellidos" required>
+        </div>
+        <div class="mb-3">
+          <label for="correo" class="form-label">Correo</label>
+          <input type="email" class="form-control" id="correo" name="correo" aria-describedby="emailHelp"
+          [(ngModel)]="correo" required>
+        </div>
+        <div class="mb-3">
+          <label for="fecha" class="form-label">Fecha Nacimiento</label>
+          <input type="date" class="form-control" id="fecha" name="fecha" max="2004-04-20" aria-describedby="emailHelp"
+          [(ngModel)]="fechaNacimiento" required>
+        </div>
+        <button class="btn btn-primary" [disabled]="!f.valid">Crear</button>
+
+      </form>
+
+
+    </div>
+
+  </div>
+</div>
+
