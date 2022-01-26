@@ -28,6 +28,8 @@ public class ClienteDto {
 
 	@Temporal(TemporalType.DATE)
 	private Date fechaCreacion;
+	
+	
 
 
 	public ClienteDto() {

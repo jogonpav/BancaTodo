@@ -7,7 +7,7 @@ import org.springframework.data.repository.CrudRepository;
 
 import com.BancaTodo.UserFront.entity.ProductoEntity;
 
-public interface IProductoDao extends CrudRepository<ProductoEntity, Long> {
+public interface ProductoRepository extends CrudRepository<ProductoEntity, Long> {
 	
 	List<ProductoEntity> findByclienteId(long id);
 	

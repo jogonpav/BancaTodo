@@ -9,10 +9,10 @@ import com.BancaTodo.UserFront.entity.ProductoEntity;
 
 public interface ProductoService {
 	
-	public List<ProductoEntity> findByclienteId(long clienteId);
-	public Optional<ProductoEntity> findById(long id);
-	public void add(ProductoEntity producto);
-	public void update(ProductoEntity producto);
+	public List<ProductoEntity> findByclienteId(long clienteId) throws Exception;
+	public Optional<ProductoEntity> findById(long id) throws Exception;
+	public void add(ProductoEntity producto) throws Exception;
+	public void update(ProductoEntity producto) throws Exception;
 	public List<ProductoEntity> findProductosByIdClienteDistintctId(long idProducto, long idCliente);
 	public List<ProductoEntity> findByDistintctIdCliente(long clienteId);
 	

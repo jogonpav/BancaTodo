@@ -41,7 +41,7 @@ export class EditarClienteComponent implements OnInit {
     const id = this.activatedRoute.snapshot.params['id'];
     this.clienteService.update(id, this.cliente).subscribe(
       data =>{
-        this.toastr.success('Producto Actualiado', 'Ok',{
+        this.toastr.success('Producto Actualizado', 'Ok',{
           timeOut:4000,
           positionClass: 'toast-top-center',
         });

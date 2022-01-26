@@ -40,8 +40,6 @@ public class ProductoEntity {
 	
 	@Column(name = "cliente_id")
 	private long clienteId;
-	
-	
 
 	public ProductoEntity() {
 	}

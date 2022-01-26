@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.BancaTodo.UserFront.dao.IClienteDao;
+import com.BancaTodo.UserFront.dao.ClienteRepository;
 import com.BancaTodo.UserFront.entity.ClienteEntity;
 import com.BancaTodo.UserFront.services.ClienteService;
 
@@ -15,34 +15,32 @@ import com.BancaTodo.UserFront.services.ClienteService;
 public class ClienteServiceImpl implements ClienteService{
 	
 	@Autowired
-	private IClienteDao userDao;
+	private ClienteRepository userDao;
 
 	@Override
-	public List<ClienteEntity> findAll() {
+	public List<ClienteEntity> findAll()  throws Exception{
 		// TODO Auto-generated method stub
 		return (List<ClienteEntity>) userDao.findAll();
 	}
 	
 	@Override
-	public ClienteEntity getById(long id) {		
+	public ClienteEntity getById(long id)  throws Exception{		
 		return userDao.findById(id);
 	}
 	
 	@Override
-	public void add(ClienteEntity cliente) {
+	public void add(ClienteEntity cliente)  throws Exception{
 		userDao.save(cliente);		
 	}
 	@Override
-	public void update(ClienteEntity cliente) {
+	public void update(ClienteEntity cliente)  throws Exception{
 		userDao.save(cliente);
 		
 	}	
 
 	@Override
-	public void delete(long id) {
+	public void delete(long id) throws Exception{
 		userDao.deleteById(id);		
 	}
-
-
 
 }

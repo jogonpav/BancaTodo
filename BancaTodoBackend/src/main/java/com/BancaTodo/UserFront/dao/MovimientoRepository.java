@@ -7,7 +7,7 @@ import org.springframework.data.repository.CrudRepository;
 import com.BancaTodo.UserFront.entity.MovimientoEntity;
 
 
-public interface IMovimientoDao extends CrudRepository<MovimientoEntity, Long>{
+public interface MovimientoRepository extends CrudRepository<MovimientoEntity, Long>{
 	
 	List<MovimientoEntity> findBycuentaId(long cuentaId);
 

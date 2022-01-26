@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.BancaTodo.UserFront.dao.IMovimientoDao;
+import com.BancaTodo.UserFront.dao.MovimientoRepository;
 import com.BancaTodo.UserFront.entity.MovimientoEntity;
 import com.BancaTodo.UserFront.services.MovimientoService;
 
@@ -13,7 +13,7 @@ import com.BancaTodo.UserFront.services.MovimientoService;
 public class MovimientoServiceImpl implements MovimientoService {
 
 	@Autowired
-	private IMovimientoDao movimientoDao;
+	private MovimientoRepository movimientoDao;
 	
 	@Override
 	public List<MovimientoEntity> findBycuentaId(long cuentaId) {		
@@ -21,7 +21,7 @@ public class MovimientoServiceImpl implements MovimientoService {
 	}
 
 	@Override
-	public void add(MovimientoEntity movimiento) {
+	public void add(MovimientoEntity movimiento) throws Exception {
 		movimientoDao.save(movimiento);
 		
 	}

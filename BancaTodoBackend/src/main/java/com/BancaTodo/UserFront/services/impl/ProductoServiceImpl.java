@@ -6,7 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.BancaTodo.UserFront.dao.IProductoDao;
+import com.BancaTodo.UserFront.dao.ProductoRepository;
 import com.BancaTodo.UserFront.entity.ProductoEntity;
 import com.BancaTodo.UserFront.services.ProductoService;
 
@@ -15,25 +15,25 @@ import com.BancaTodo.UserFront.services.ProductoService;
 public class ProductoServiceImpl implements ProductoService {
 	
 	@Autowired
-	public IProductoDao productoDao;
+	public ProductoRepository productoDao;
 
 	@Override
-	public List<ProductoEntity> findByclienteId(long clienteId) {		
+	public List<ProductoEntity> findByclienteId(long clienteId) throws Exception{		
 		return productoDao.findByclienteId(clienteId);
 	}
 	
 	@Override
-	public Optional<ProductoEntity> findById(long id) {		
+	public Optional<ProductoEntity> findById(long id) throws Exception{		
 		return productoDao.findById(id);
 	}
 
 	@Override
-	public void add(ProductoEntity producto) {
+	public void add(ProductoEntity producto) throws Exception{
 		productoDao.save(producto);		
 	}
 
 	@Override
-	public void update(ProductoEntity producto) {
+	public void update(ProductoEntity producto) throws Exception{
 		productoDao.save(producto);	
 		
 	}
