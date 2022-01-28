@@ -35,8 +35,33 @@ public class MovimientoController {
 	private ProductoService productoService;
 
 	@GetMapping("/{cuentaId}/movimientos")
-	public List<MovimientoEntity> listar(@PathVariable("cuentaId") long cuentaId) {
-		return movimientoService.findBycuentaId(cuentaId);
+	public ResponseEntity<GeneralResponse<List<MovimientoEntity>>>  listar(@PathVariable("cuentaId") long cuentaId) {
+		GeneralResponse<List<MovimientoEntity>> respuesta = new GeneralResponse<>();
+		List<MovimientoEntity> datos = null;
+		String mensaje = null;
+		HttpStatus estadoHttp = null;
+		
+		try {
+			datos = movimientoService.findBycuentaId(cuentaId);
+			mensaje = "0 - se encontró " + datos.size() + " movimientos";
+			
+			if (datos.isEmpty()) {
+				mensaje = "1 - No se encontró movimientos registrados";
+			}
+			respuesta.setDatos(datos);			
+			respuesta.setMensaje(mensaje);
+			respuesta.setPeticionExitosa(true);
+			
+			estadoHttp = HttpStatus.OK;
+			
+		} catch (Exception e) {
+			mensaje = "Ha fallado el sistema. Contacte al administrador";			
+			respuesta.setMensaje(mensaje);
+			respuesta.setPeticionExitosa(false);
+			estadoHttp = HttpStatus.INTERNAL_SERVER_ERROR;
+		}
+		
+		return new ResponseEntity<>(respuesta, estadoHttp);
 	}
 
 	@PostMapping("/{idProducto}/agregar")

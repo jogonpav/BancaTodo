@@ -5,8 +5,7 @@ public class GeneralResponse<T> {
 	private T datos;
 	private String mensaje;
 	private boolean peticionExitosa;
-	private int codigoError;
-
+	
 
 	public T getDatos() {
 		return datos;

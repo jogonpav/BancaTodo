@@ -16,7 +16,7 @@ public class MovimientoServiceImpl implements MovimientoService {
 	private MovimientoRepository movimientoDao;
 	
 	@Override
-	public List<MovimientoEntity> findBycuentaId(long cuentaId) {		
+	public List<MovimientoEntity> findBycuentaId(long cuentaId) throws Exception {		
 		return (List<MovimientoEntity>) movimientoDao.findBycuentaId(cuentaId);
 	}
 

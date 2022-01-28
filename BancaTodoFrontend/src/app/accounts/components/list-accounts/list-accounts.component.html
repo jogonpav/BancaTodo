@@ -1,0 +1,105 @@
+<div class="container">
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Tipo Cuenta</th>
+        <th scope="col">Número Cuenta</th>
+        <th scope="col">Estado</th>
+        <th scope="col">Fecha Apertura</th>
+        <th scope="col">Saldo</th>
+        <th scope="col">Movimiento</th>
+        <th scope="col">consignar</th>
+        <th scope="col">retirar</th>
+        <th scope="col">transferir</th>
+        <th scope="col">Activar</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let account of accounts">
+        <td>{{ account.tipoCuenta }}</td>
+        <td>{{ account.numeroCuenta }}</td>
+        <td>{{ account.estado }}</td>
+        <td>{{ account.fechaApertura }}</td>
+        <td>${{ account.saldo }}</td>
+        <td>
+          <button
+            class="btn btn-outline-success"
+            routerLink="/cliente/{{ clienteId }}/cuenta/{{
+              account.id
+            }}/movimiento"
+          >
+            <i
+              class="fas fa-eye"
+              routerLink="/cliente/{{ clienteId }}/cuenta/{{
+                account.id
+              }}/movimiento"
+            ></i>
+            Ver
+          </button>
+        </td>
+        <td>
+          <div *ngIf="account.estado == 'cancelado'; else elseBlokConsignar">
+          </div>
+          <ng-template #elseBlokConsignar>
+            <button
+            class="btn btn-outline-primary"
+            routerLink="/detalle/{{ account.id }}"
+          >
+            <i class="fas fa-eye" routerLink="/detalle/{{ account.id }}"></i>
+            consignar
+          </button>
+          </ng-template>
+        </td>
+        <td>
+          <div *ngIf="account.estado == 'cancelado' || account.estado == 'inactivo'; else elseBlokRetirar">
+          </div>
+          <ng-template #elseBlokRetirar>
+            <button
+            class="btn btn-outline-warning"
+            routerLink="/editar/{{ account.id }}"
+          >
+            <i class="fas fa-edit"></i> Retirar
+          </button>
+          </ng-template>
+
+        </td>
+        <td>
+          <div *ngIf="account.estado == 'cancelado' || account.estado == 'inactivo'; else elseBlokTransferir">
+          </div>
+          <ng-template #elseBlokTransferir>
+            <button
+            class="btn btn-outline-secondary"
+            routerLink="/editar/{{ account.id }}"
+          >
+            <i class="fas fa-edit"></i> Transferir
+          </button>
+          </ng-template>
+
+        </td>
+        <td>
+          <div *ngIf="account.estado == 'activo'; else elseBlok">
+            <button
+              class="btn btn-danger"
+              routerLink="/editar/{{ account.id }}"
+            >
+              <i class="fas fa-toggle-on"></i> Desactivar
+            </button>
+          </div>
+          <ng-template #elseBlok>
+            <button
+              class="btn btn-success"
+              routerLink="/editar/{{ account.id }}"
+            >
+              <i class="fas fa-toggle-off"></i> Activar
+            </button>
+          </ng-template>
+        </td>
+        <td>
+          <!--  <button class="btn btn-outline-danger" (click)="borrar(account.id)">
+            <i class="far fa-trash-alt"></i> Eliminar
+          </button> -->
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

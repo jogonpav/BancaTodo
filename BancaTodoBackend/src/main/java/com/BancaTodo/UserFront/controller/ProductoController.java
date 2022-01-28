@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.BancaTodo.UserFront.dto.GeneralResponse;
 import com.BancaTodo.UserFront.dto.Mensaje;
 import com.BancaTodo.UserFront.entity.ProductoEntity;
 import com.BancaTodo.UserFront.services.ProductoService;
@@ -33,22 +34,38 @@ public class ProductoController {
 	
 	//Lista productos por clienteId 
 	@GetMapping
-	public ResponseEntity<List<ProductoEntity>> listar(@PathParam("idCliente") long idCliente){	
+	public ResponseEntity<GeneralResponse<List<ProductoEntity>>>  listar(@PathParam("clienteId") Long clienteId){	
+		GeneralResponse<List<ProductoEntity>> respuesta = new GeneralResponse<>();
+		List<ProductoEntity> datos = null;
+		String mensaje = null;		
 		HttpStatus estadoHttp = null;
-		List<ProductoEntity> listaProductos = null;
+		
 		
 		try {
 			
-			listaProductos = productoService.findByclienteId(idCliente);
+			datos = productoService.findByclienteId(clienteId);
+			mensaje = "0 - se encontró " + datos.size() + " productos";
+			
+			if (datos.isEmpty()) {
+				mensaje = "1 - No se encontró productos registrados";
+			}
+			respuesta.setDatos(datos);			
+			respuesta.setMensaje(mensaje);
+			respuesta.setPeticionExitosa(true);
+			
 			estadoHttp = HttpStatus.OK;
 			
 		} catch (Exception e) {
 			
+			mensaje = "Ha fallado el sistema. Contacte al administrador";			
+			respuesta.setMensaje(mensaje);
+			respuesta.setPeticionExitosa(false);
 			estadoHttp = HttpStatus.INTERNAL_SERVER_ERROR;
+			
 			
 		}
 		
-		return new ResponseEntity<List<ProductoEntity>>(listaProductos, estadoHttp);
+		return new ResponseEntity<>(respuesta, estadoHttp);
 	}
 	//obtiene producto por id 
 	@GetMapping("/{id}")

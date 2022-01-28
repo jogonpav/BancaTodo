@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { Cliente } from 'src/app/models/cliente';
-import { ClienteService } from 'src/app/service/cliente.service';
+import { Cliente } from 'src/app/cliente/models/cliente';
+import { ClienteService } from 'src/app/cliente/services/cliente.service';
 
 @Component({
   selector: 'app-nuevo-cliente',
@@ -32,11 +32,23 @@ export class NuevoClienteComponent implements OnInit {
       this.apellidos, this.correo, this.fechaNacimiento, this.fechaCreacion);
 
     this.clienteService.save(cliente).subscribe(
-      data =>{
-        this.toastr.success('Producto Creado', 'Ok',{
-          timeOut:4000,
-          positionClass: 'toast-top-center',
-        });
+     respuesta =>{
+
+      if (respuesta.peticionExitosa) {
+        if (respuesta.mensaje.charAt(0) == "0") {
+          this.toastr.success(respuesta.mensaje, 'Ok', {
+            timeOut: 4000,
+            positionClass: 'toast-top-center',
+          });
+
+        }else{
+          this.toastr.warning(respuesta.mensaje, '¡Info!', {
+            timeOut: 4000,
+            positionClass: 'toast-top-center',
+          });
+        }
+      }
+
         this.router.navigate(['/']);
 
       }, err =>{

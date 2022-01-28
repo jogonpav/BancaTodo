@@ -29,8 +29,8 @@ public class ClienteServiceImpl implements ClienteService{
 	}
 	
 	@Override
-	public void add(ClienteEntity cliente)  throws Exception{
-		userDao.save(cliente);		
+	public ClienteEntity add(ClienteEntity cliente)  throws Exception{
+		return userDao.save(cliente);		
 	}
 	@Override
 	public void update(ClienteEntity cliente)  throws Exception{

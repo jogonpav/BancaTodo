@@ -9,7 +9,7 @@ import com.BancaTodo.UserFront.entity.ProductoEntity;
 
 public interface ProductoRepository extends CrudRepository<ProductoEntity, Long> {
 	
-	List<ProductoEntity> findByclienteId(long id);
+	List<ProductoEntity> findByclienteId(long clienteId);
 	
 	//listar producto diferente al seleccionado para un cliente id especificado
 	@Query(value = "SELECT * FROM productos WHERE id != ?1 AND cliente_id=?2", nativeQuery = true)

@@ -1,0 +1,26 @@
+<div class="container">
+  <div class="row mt 5" *ngIf="cliente">
+    <div class="col-md-3 mx-auto">
+      <div class="card mt-5" style="width: 18rem;">
+        <div class="card-header text-center">
+          Información del Cliente
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item"><b>Tipo Identificación: </b>{{cliente.tipoIdentificacion}}</li>
+          <li class="list-group-item"><b>Número Identificación: </b>{{cliente.numeroIdentificacion}}</li>
+          <li class="list-group-item"><b>Nombres: </b>{{cliente.nombres}}</li>
+          <li class="list-group-item"><b>Apellidos: </b>{{cliente.apellidos}}</li>
+          <li class="list-group-item"><b>Correo: </b>{{cliente.correo}}</li>
+          <li class="list-group-item"><b>Fecha Nacimiento: </b>{{cliente.fechaNacimiento}}</li>
+          <li class="list-group-item"><b>Fecha Creacion: </b>{{cliente.fechaCreacion}}</li>
+        </ul>
+        <div class="card-footer d-grid gap-2">
+          <button class="btn btn-outline-primary btn-block" (click)="volver()"><i class="fas fa-arrow-circle-left"></i> Volver</button>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+<app-list-accounts></app-list-accounts>

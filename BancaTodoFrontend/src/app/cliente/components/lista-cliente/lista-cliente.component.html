@@ -2,10 +2,10 @@
   <table class="table">
     <thead>
       <tr>
-        <th scope="col">Tipo Identificación</th>
-        <th scope="col">Número Identificación</th>
         <th scope="col">Nombres</th>
         <th scope="col">Apellidos</th>
+        <th scope="col">Tipo Identificación</th>
+        <th scope="col">Número Identificación</th>
         <th scope="col">Ver</th>
         <th scope="col">Editar</th>
         <th scope="col">Eliminar</th>
@@ -13,16 +13,20 @@
     </thead>
     <tbody>
       <tr *ngFor="let cliente of clientes">
-        <td>{{ cliente.tipoIdentificacion }}</td>
-        <td>{{ cliente.numeroIdentificacion }}</td>
         <td>{{ cliente.nombres }}</td>
         <td>{{ cliente.apellidos }}</td>
+        <td>{{ cliente.tipoIdentificacion }}</td>
+        <td>{{ cliente.numeroIdentificacion }}</td>
         <td>
           <button
             class="btn btn-outline-primary"
-            routerLink="/detalle/{{ cliente.id }}"
+            routerLink="/cliente/{{ cliente.id }}/detalle"
           >
-            <i class="fas fa-eye" routerLink="/detalle/{{ cliente.id }}"></i> Ver
+            <i
+              class="fas fa-eye"
+              routerLink="/cliente/{{ cliente.id }}/detalle"
+            ></i>
+            Ver
           </button>
         </td>
         <td>
@@ -34,7 +38,7 @@
           </button>
         </td>
         <td>
-          <button class="btn btn-outline-danger"(click)="borrar(cliente.id)" >
+          <button class="btn btn-outline-danger" (click)="borrar(cliente.id)">
             <i class="far fa-trash-alt"></i> Eliminar
           </button>
         </td>
