@@ -1,6 +1,6 @@
 <div class="container">
   <div class="row mt 5" *ngIf="cliente">
-    <div class="col-md-3 mx-auto">
+    <div class="col-md-3  mx-auto" >
       <div class="card mt-5" style="width: 18rem;">
         <div class="card-header text-center">
           Información del Cliente
@@ -14,10 +14,14 @@
           <li class="list-group-item"><b>Fecha Nacimiento: </b>{{cliente.fechaNacimiento}}</li>
           <li class="list-group-item"><b>Fecha Creacion: </b>{{cliente.fechaCreacion}}</li>
         </ul>
+        <div class="card-footer d-grid gap-2 ">
+          <button class="btn btn-success btn-block " routerLink="/cliente/{{cliente.id}}/cuenta/crear"><i class="far fa-credit-card"></i> Crear Cuenta</button>
+        </div>
         <div class="card-footer d-grid gap-2">
           <button class="btn btn-outline-primary btn-block" (click)="volver()"><i class="fas fa-arrow-circle-left"></i> Volver</button>
         </div>
       </div>
+
 
     </div>
 

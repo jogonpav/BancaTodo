@@ -13,8 +13,8 @@ public interface ProductoService {
 	public Optional<ProductoEntity> findById(long id) throws Exception;
 	public void add(ProductoEntity producto) throws Exception;
 	public void update(ProductoEntity producto) throws Exception;
-	public List<ProductoEntity> findProductosByIdClienteDistintctId(long idProducto, long idCliente);
-	public List<ProductoEntity> findByDistintctIdCliente(long clienteId);
+	public List<ProductoEntity> findProductosByIdClienteDistintctId(long idProducto, long idCliente) throws Exception;
+	public List<ProductoEntity> findByDistintctIdCliente(long clienteId) throws Exception;
 	
 	
 }

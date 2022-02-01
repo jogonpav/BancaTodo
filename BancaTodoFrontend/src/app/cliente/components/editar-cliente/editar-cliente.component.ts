@@ -10,7 +10,15 @@ import { ClienteService } from 'src/app/cliente/services/cliente.service';
   styleUrls: ['./editar-cliente.component.css'],
 })
 export class EditarClienteComponent implements OnInit {
+
   cliente: Cliente;
+
+  dataIdentificacion = ['Cédula Ciudadanía','Pasaporte','Cédula Extranjera']
+  valorSeleccion: string;
+
+  comparacion(item1:any, item2:any) {
+    return item1 && item2 ? item1 === item2 : item1 === item2;
+  }
 
   constructor(
     private clienteService: ClienteService,
@@ -25,6 +33,7 @@ export class EditarClienteComponent implements OnInit {
       (respuesta) => {
         if (respuesta.peticionExitosa) {
           this.cliente = respuesta.datos;
+          this.valorSeleccion = this.cliente.tipoIdentificacion;
         }
       },
       (err) => {
@@ -35,6 +44,8 @@ export class EditarClienteComponent implements OnInit {
         this.router.navigate(['/']);
       }
     );
+
+
   }
 
   onUpdate(): void {

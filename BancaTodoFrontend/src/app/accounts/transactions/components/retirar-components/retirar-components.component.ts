@@ -7,12 +7,11 @@ import { Transaction } from '../../models/transaction';
 import { TransactionsService } from '../../services/transactions.service';
 
 @Component({
-  selector: 'app-consignar-components',
-  templateUrl: './consignar-components.component.html',
-  styleUrls: ['./consignar-components.component.css'],
+  selector: 'app-retirar-components',
+  templateUrl: './retirar-components.component.html',
+  styleUrls: ['./retirar-components.component.css']
 })
-export class ConsignarComponentsComponent implements OnInit {
-  account: Accounts;
+export class RetirarComponentsComponent implements OnInit { account: Accounts;
   clienteId: number;
 
   tipoCuenta: string;
@@ -85,7 +84,7 @@ export class ConsignarComponentsComponent implements OnInit {
     );
   }
 
-  consignar(): void {
+  retirar(): void {
     const transaction = new Transaction(
       this.tipoMovimiento,
       this.descripcion,
@@ -98,7 +97,7 @@ export class ConsignarComponentsComponent implements OnInit {
       this.fecha
     );
 
-    this.transactionService.consignar(this.cuentaId, transaction).subscribe(
+    this.transactionService.retirar(this.cuentaId, transaction).subscribe(
       (respuestaTransaction) => {
         if (respuestaTransaction.peticionExitosa) {
           if (respuestaTransaction.mensaje.charAt(0) == '0') {
@@ -144,4 +143,5 @@ export class ConsignarComponentsComponent implements OnInit {
   volver(): void {
     this.router.navigate(['/cliente/' + this.clienteId + '/detalle']);
   }
+
 }

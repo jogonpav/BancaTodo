@@ -1,4 +1,4 @@
-export class Transactions {
+export class Transaction {
   id: number;
   tipoMovimiento: string;
   descripcion: string;
@@ -11,7 +11,7 @@ export class Transactions {
   fecha: Date;
 
   constructor(
-    id: number,
+
     tipoMovimiento: string,
     descripcion: string,
     saldoInicial: number,
@@ -22,7 +22,7 @@ export class Transactions {
     cuentaDestino: number,
     fecha: Date
   ) {
-    this.id = id;
+
     this.tipoMovimiento = tipoMovimiento;
     this.descripcion = descripcion;
     this.saldoInicial = saldoInicial;

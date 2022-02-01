@@ -24,7 +24,7 @@ public class ProductoEntity {
 	private String tipoCuenta;
 	
 	@Column(name="numero")
-	private int numeroCuenta;
+	private Integer numeroCuenta;
 	
 	
 	@Column(name="estado")
@@ -36,18 +36,18 @@ public class ProductoEntity {
 	
 	
 	@Column(name="saldo")
-	private double saldo;
+	private Double saldo;
 	
 	@Column(name = "cliente_id")
-	private long clienteId;
+	private Long clienteId;
 
 	public ProductoEntity() {
 	}
 	
 	
 
-	public ProductoEntity(Long id, String tipoCuenta, int numeroCuenta, String estado, LocalDate fechaApertura, double saldo,
-			long clienteId) {
+	public ProductoEntity(Long id, String tipoCuenta, Integer numeroCuenta, String estado, LocalDate fechaApertura, Double saldo,
+			Long clienteId) {
 		this.id = id;
 		this.tipoCuenta = tipoCuenta;
 		this.numeroCuenta = numeroCuenta;
@@ -75,11 +75,11 @@ public class ProductoEntity {
 		this.tipoCuenta = tipoCuenta;
 	}
 
-	public int getNumeroCuenta() {
+	public Integer getNumeroCuenta() {
 		return numeroCuenta;
 	}
 
-	public void setNumeroCuenta(int numeroCuenta) {
+	public void setNumeroCuenta(Integer numeroCuenta) {
 		this.numeroCuenta = numeroCuenta;
 	}
 
@@ -99,19 +99,19 @@ public class ProductoEntity {
 		this.estado = estado;
 	}
 
-	public double getSaldo() {
+	public Double getSaldo() {
 		return saldo;
 	}
 
-	public void setSaldo(double saldo) {
+	public void setSaldo(Double saldo) {
 		this.saldo = saldo;
 	}
 
-	public long getClienteId() {
+	public Long getClienteId() {
 		return clienteId;
 	}
 
-	public void setClienteId(long clienteId) {
+	public void setClienteId(Long clienteId) {
 		this.clienteId = clienteId;
 	}
 	

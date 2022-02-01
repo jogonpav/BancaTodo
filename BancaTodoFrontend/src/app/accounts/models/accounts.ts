@@ -8,7 +8,6 @@ export class Accounts {
   clienteId: number;
 
   constructor(
-    id: number,
     tipoCuenta: string,
     numeroCuenta: number,
     estado: string,
@@ -16,7 +15,6 @@ export class Accounts {
     saldo: number,
     clienteId: number
   ) {
-    this.id = id;
     this.tipoCuenta = tipoCuenta;
     this.numeroCuenta = numeroCuenta;
     this.estado = estado;

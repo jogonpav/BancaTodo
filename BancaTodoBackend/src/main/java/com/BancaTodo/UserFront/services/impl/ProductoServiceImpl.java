@@ -39,12 +39,12 @@ public class ProductoServiceImpl implements ProductoService {
 	}
 
 	@Override
-	public List<ProductoEntity> findProductosByIdClienteDistintctId(long idProducto, long idCliente) {
+	public List<ProductoEntity> findProductosByIdClienteDistintctId(long idProducto, long idCliente) throws Exception{
 		return productoDao.findProductosByIdClienteDistintctId(idProducto, idCliente);
 	}
 
 	@Override
-	public List<ProductoEntity> findByDistintctIdCliente(long clienteId) {
+	public List<ProductoEntity> findByDistintctIdCliente(long clienteId) throws Exception{
 		return productoDao.findByDistintctIdCliente(clienteId);
 	}
 

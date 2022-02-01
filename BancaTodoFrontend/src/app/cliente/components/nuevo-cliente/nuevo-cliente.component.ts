@@ -19,6 +19,7 @@ export class NuevoClienteComponent implements OnInit {
   fechaNacimiento: Date;
   fechaCreacion: Date;
 
+
   constructor(private clienteService: ClienteService,
     private toastr: ToastrService,
     private router: Router //para redirigir si hay error

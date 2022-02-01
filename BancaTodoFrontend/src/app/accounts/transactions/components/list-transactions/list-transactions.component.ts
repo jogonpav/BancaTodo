@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { Transactions } from '../../models/transactions';
+import { Transaction } from '../../models/transaction';
 import { TransactionsService } from '../../services/transactions.service';
 
 @Component({
@@ -10,7 +10,7 @@ import { TransactionsService } from '../../services/transactions.service';
   styleUrls: ['./list-transactions.component.css'],
 })
 export class ListTransactionsComponent implements OnInit {
-  transactions: Transactions[] = [];
+  transactions: Transaction[] = [];
 
   clienteId:number;
 
@@ -23,7 +23,7 @@ export class ListTransactionsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const cuentaId = this.activatedRoute.snapshot.params['id'];
+    const cuentaId = this.activatedRoute.snapshot.params['cuentaId'];
     this.clienteId = this.activatedRoute.snapshot.params['clienteId'];
 
     this.cargarMovimientos(cuentaId);

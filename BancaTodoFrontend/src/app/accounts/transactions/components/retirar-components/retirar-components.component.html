@@ -17,12 +17,12 @@
     </div>
     <div class="col-4">
       <div class="card">
-        <div class="card-header text-center">CONSIGNACIÓN</div>
+        <div class="card-header text-center">RETIRO</div>
         <div class="card-body">
-        <form (ngSubmit)="consignar()" novalidate #f="ngForm">
+        <form (ngSubmit)="retirar()" novalidate #f="ngForm">
           <div class="mb-3">
             <label for="valor" class="form-label"
-              >Ingrese valor a consignar</label
+              >Ingrese valor a retiro</label
             >
             <input
               type="number"
@@ -47,14 +47,13 @@
             />
           </div>
           <button class="btn btn-primary w-100" [disabled]="!f.valid">
-            Consignar
+            Retirar
           </button>
         </form>
         <button class="btn btn-outline-primary mt-2 w-100" (click)="volver()">
           <i class="fas fa-arrow-circle-left"></i> Volver
         </button>
       </div>
-
       </div>
 
     </div>

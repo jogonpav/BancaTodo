@@ -38,67 +38,87 @@
           </button>
         </td>
         <td>
-          <div *ngIf="account.estado == 'cancelado'; else elseBlokConsignar">
-          </div>
+          <div
+            *ngIf="account.estado == 'cancelado'; else elseBlokConsignar"
+          ></div>
           <ng-template #elseBlokConsignar>
             <button
-            class="btn btn-outline-primary"
-            routerLink="/detalle/{{ account.id }}"
-          >
-            <i class="fas fa-eye" routerLink="/detalle/{{ account.id }}"></i>
-            consignar
-          </button>
+              class="btn btn-outline-primary"
+              (click)="consignar(clienteId, account)"
+            >
+              <i
+                class="fas fa-wallet"
+                (click)="consignar(clienteId, account)"
+              ></i>
+
+              consignar
+            </button>
           </ng-template>
         </td>
         <td>
-          <div *ngIf="account.estado == 'cancelado' || account.estado == 'inactivo'; else elseBlokRetirar">
-          </div>
+          <div
+            *ngIf="
+              account.estado == 'cancelado' || account.estado == 'inactivo';
+              else elseBlokRetirar
+            "
+          ></div>
           <ng-template #elseBlokRetirar>
             <button
-            class="btn btn-outline-warning"
-            routerLink="/editar/{{ account.id }}"
-          >
-            <i class="fas fa-edit"></i> Retirar
-          </button>
+              class="btn btn-outline-warning"
+              (click)="retirar(clienteId, account)"
+            >
+              <i class="fas fa-hand-holding-usd"></i> Retirar
+            </button>
           </ng-template>
-
         </td>
         <td>
-          <div *ngIf="account.estado == 'cancelado' || account.estado == 'inactivo'; else elseBlokTransferir">
-          </div>
+          <div
+            *ngIf="
+              account.estado == 'cancelado' || account.estado == 'inactivo';
+              else elseBlokTransferir
+            "
+          ></div>
           <ng-template #elseBlokTransferir>
             <button
-            class="btn btn-outline-secondary"
-            routerLink="/editar/{{ account.id }}"
-          >
-            <i class="fas fa-edit"></i> Transferir
-          </button>
+              class="btn btn-outline-secondary"
+              (click)="transferir(clienteId, account)"
+            >
+              <i class="fas fa-money-check-alt"></i> Transferir
+            </button>
           </ng-template>
-
         </td>
         <td>
           <div *ngIf="account.estado == 'activo'; else elseBlok">
             <button
+              type="button"
               class="btn btn-danger"
-              routerLink="/editar/{{ account.id }}"
+              (click)="desactivar(account.id, account)"
             >
               <i class="fas fa-toggle-on"></i> Desactivar
             </button>
+            <button
+              type="button"
+              class="btn btn-secondary ms-1"
+              (click)="cancelar(account.id, account)"
+            >
+              <i class="fas fa-power-off"></i> cancelar
+            </button>
           </div>
           <ng-template #elseBlok>
-            <button
-              class="btn btn-success"
-              routerLink="/editar/{{ account.id }}"
-            >
-              <i class="fas fa-toggle-off"></i> Activar
-            </button>
+            <div
+              *ngIf="account.estado == 'cancelado'; else elseBlockCancelado"
+            ></div>
+            <ng-template #elseBlockCancelado>
+              <button
+                class="btn btn-success"
+                (click)="activar(account.id, account)"
+              >
+                <i class="fas fa-toggle-off"></i> Activar
+              </button>
+            </ng-template>
           </ng-template>
         </td>
-        <td>
-          <!--  <button class="btn btn-outline-danger" (click)="borrar(account.id)">
-            <i class="far fa-trash-alt"></i> Eliminar
-          </button> -->
-        </td>
+        <td></td>
       </tr>
     </tbody>
   </table>

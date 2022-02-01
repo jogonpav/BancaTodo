@@ -1,0 +1,35 @@
+<div class="container-mt-5 mt-3" >
+  <div class="row">
+    <div class="col-md-4 mx-auto">
+      <div class="card mt-2">
+      <div class="card-header text-center">CREAR CUENTA</div>
+      <div class="card-body">
+      <form (ngSubmit)="onCreate()" novalidate #f="ngForm">
+        <div class="mb-3">
+          <label for="tipoCuenta" class="form-label">Seleccione tipo de cuenta</label>
+          <select for="tipoCuenta" [(ngModel)]="tipoCuenta" name="tipoCuenta" class="form-select mb-3" aria-describedby="emailHelp">
+            <option value="Ahorro">Cuenta de Ahorro</option>
+            <option value="Corriente">Cuenta Corriente</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label for="numCuenta" class="form-label">Número de Cuenta</label>
+          <input type="number" class="form-control" id="numCuenta" name="numCuenta" aria-describedby="emailHelp"
+          [(ngModel)]="numeroCuenta" required>
+        </div>
+        <div class="mb-3">
+          <button class="btn btn-primary w-100" [disabled]="!f.valid">Crear</button>
+        </div>
+      </form>
+      <button class="btn btn-outline-primary mt-2 mb-3 w-100" routerLink="/cliente/{{clienteId}}/detalle">
+        <i class="fas fa-arrow-circle-left"></i> Volver
+      </button>
+
+    </div>
+
+
+    </div>
+    </div>
+
+  </div>
+</div>

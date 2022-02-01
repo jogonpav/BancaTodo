@@ -64,215 +64,250 @@ public class MovimientoController {
 		return new ResponseEntity<>(respuesta, estadoHttp);
 	}
 
-	@PostMapping("/{idProducto}/agregar")
-	public ResponseEntity<?> agregarSaldo(@RequestBody MovimientoEntity movimiento,
-			@PathVariable("idProducto") long idProducto) {
-		HttpStatus estadoHttp = null;
-		String mensaje = null;	
+	@PostMapping("/{cuentaId}/consignar")
+	public ResponseEntity<GeneralResponse<Integer>> agregarSaldo(@RequestBody MovimientoEntity movimiento,
+			@PathVariable("cuentaId") Long cuentaId) {
+		GeneralResponse<Integer> respuesta = new GeneralResponse<>();
+		Integer datos = null;
 		Optional<ProductoEntity> producto = null;
+		String mensaje = null;			
+		HttpStatus estadoHttp = null;
 		
 		try {
-			producto = productoService.findById(idProducto);
-			movimiento.setSaldoInicial(producto.get().getSaldo());
-			producto.get().setSaldo(producto.get().getSaldo() + movimiento.getValor());//consignación
-			movimiento.setSaldoFinal(producto.get().getSaldo());
-			movimiento.setTipoMovimiento("consiginacion");
-			movimiento.setTipoDebito("credito");
-			movimiento.setFecha(LocalDate.now());
-			movimiento.setCuentaId(idProducto);
-			movimiento.setCuentaDestino((long) 0);
-			productoService.add(producto.get());
-			movimientoService.add(movimiento);
 			
-			estadoHttp = HttpStatus.CREATED;	
-			mensaje = "Movimiento creado exitosamente";
+			producto = productoService.findById(cuentaId);
+			datos = 0;
+			
+			if (!producto.get().getEstado().equals("cancelado")) {
+				movimiento.setSaldoInicial(producto.get().getSaldo());
+				producto.get().setSaldo(producto.get().getSaldo() + movimiento.getValor());//consignación
+				movimiento.setSaldoFinal(producto.get().getSaldo());
+				movimiento.setTipoMovimiento("consiginacion");
+				movimiento.setTipoDebito("crédito");
+				movimiento.setFecha(LocalDate.now());
+				movimiento.setCuentaId(cuentaId);
+				movimiento.setCuentaDestino((long) 0);
+				productoService.add(producto.get());
+				movimientoService.add(movimiento);
+				
+				
+				mensaje = "0 - Consignación creada exitosamente";		
+				respuesta.setDatos(datos);
+				respuesta.setMensaje(mensaje);
+				respuesta.setPeticionExitosa(true);
+				estadoHttp = HttpStatus.CREATED;
+			}else {
+				
+				mensaje = "1 - Consignación no realizada, cuenta N°= " +producto.get().getNumeroCuenta() +" se encuentra cancelada";		
+				respuesta.setDatos(datos);
+				respuesta.setMensaje(mensaje);
+				respuesta.setPeticionExitosa(true);		
+				estadoHttp = HttpStatus.OK;
+			}
 			
 		} catch (Exception e) {
-			estadoHttp = HttpStatus.INTERNAL_SERVER_ERROR;	
+			estadoHttp = HttpStatus.INTERNAL_SERVER_ERROR;
 			mensaje = "Hubo un fallo. Contacte al administrador";
+			respuesta.setMensaje(mensaje);
+			respuesta.setPeticionExitosa(false);
 		}
 		
-		return new ResponseEntity<>(mensaje, estadoHttp);
+		return new ResponseEntity<>(respuesta, estadoHttp);
 	}
 
 	@PostMapping("/{idProducto}/retirar")
-	public ResponseEntity<?> retirarSaldo(@RequestBody MovimientoEntity movimientoOrigen,
+	public ResponseEntity<GeneralResponse<Integer>> retirarSaldo(@RequestBody MovimientoEntity movimientoOrigen,
 			@PathVariable("idProducto") long idCuenta) {
-		HttpStatus estadoHttp = null;
-		String mensaje = null;	
+		
+		GeneralResponse<Integer> mensajeRespuestaOrigen = new GeneralResponse<>();
+		Integer datos = null;
 		Optional<ProductoEntity> productoOrigen = null;
+		String mensaje = null;
+		MovimientoEntity movimientoGMF = null;
+		HttpStatus estadoHttp = null;
+		
 		try {
 			productoOrigen = productoService.findById(idCuenta);
-			double valorTransaccion = movimientoOrigen.getValor();
-			double saldo = productoOrigen.get().getSaldo() - valorTransaccion;
-			double saldoGMF = productoOrigen.get().getSaldo() - valorTransaccion
-					- valorTransaccion * 0.004;
+			double valorTransaccion = movimientoOrigen.getValor();		
 			
 			boolean saldoValidado = validarSaldo(productoOrigen, valorTransaccion);
 			
-			if (productoOrigen.get().getTipoCuenta().equals("ahorro") && productoOrigen.get().getEstado().equals("activo")
-					&& saldoValidado) {
-				realizarRetiro(productoOrigen, movimientoOrigen);
+			mensajeRespuestaOrigen = valEstadosProductoOri(productoOrigen, saldoValidado); //valida estado producto/cuenta de origen
+			System.out.println("saldo validado:" + saldoValidado);
+			System.out.println("Mensaje validacion estado:" + mensajeRespuestaOrigen.getMensaje());
+			System.out.println("Fue exitoso:" + mensajeRespuestaOrigen.isPeticionExitosa());
 			
+			if (saldoValidado && mensajeRespuestaOrigen.isPeticionExitosa()){
+				movimientoOrigen.setTipoMovimiento("retiro");
+				movimientoOrigen.setCuentaDestino(0);
+				
+				movimientoOrigen = realizarMovimientoDebito(productoOrigen, movimientoOrigen);
+				productoOrigen.get().setSaldo(movimientoOrigen.getSaldoFinal());				
+				productoService.add(productoOrigen.get());
+				movimientoService.add(movimientoOrigen);
+				
+				movimientoGMF = realizarMovimientoGMF(productoOrigen, valorTransaccion);
+				productoOrigen.get().setSaldo(movimientoGMF.getSaldoFinal());				
+				productoService.add(productoOrigen.get());	
+				movimientoService.add(movimientoGMF);
+				
+				mensaje = mensajeRespuestaOrigen.getMensaje() + " (Retiro)";
+				estadoHttp = HttpStatus.CREATED;				
+			}else if(!saldoValidado) {
+				mensaje = mensajeRespuestaOrigen.getMensaje() + " (Retiro)";
+				estadoHttp = HttpStatus.OK;				
 			}
-			if (productoOrigen.get().getTipoCuenta().equals("corriente") && productoOrigen.get().getEstado().equals("activo") && saldoValidado) {
-				realizarRetiro(productoOrigen, movimientoOrigen);
+			else if(!mensajeRespuestaOrigen.isPeticionExitosa()) {
+				mensaje = mensajeRespuestaOrigen.getMensaje() + " (Retiro)";
+				estadoHttp = HttpStatus.OK;				
+			}else {
+				mensaje = "1 - Error método no identificado, contacte soporte" + " (Retiro)";
+				estadoHttp = HttpStatus.OK;					
 			}
-						
-			if (productoOrigen.get().getEstado().equals("inactivo")) {
-				mensaje = "El producto está inactivo";
-				estadoHttp = HttpStatus.CONFLICT;
-			} else if (productoOrigen.get().getEstado().equals("cancelado")) {
-				mensaje = "El producto está cancelado";
-				estadoHttp = HttpStatus.CONFLICT;
-			} else if (productoOrigen.get().getTipoCuenta().equals("ahorro") && saldoGMF <= 0) {
-				mensaje = "Saldo insuficiente";
-				estadoHttp = HttpStatus.CONFLICT;
-			} else if (productoOrigen.get().getTipoCuenta().equals("corriente") && saldoGMF <= (-2000000)) {
-				mensaje = "La cuenta corriente no puede sobregirarse a más de 2000000";
-				estadoHttp = HttpStatus.CONFLICT;
-			} else {
-				mensaje = "Operación realizada con éxito";
-				estadoHttp = HttpStatus.CREATED;
-			}
+			datos = 0;
+			mensajeRespuestaOrigen.setDatos(datos);
+			mensajeRespuestaOrigen.setMensaje(mensaje);
+			mensajeRespuestaOrigen.setPeticionExitosa(true);		
 			
 		} catch (Exception e) {
-			estadoHttp = HttpStatus.INTERNAL_SERVER_ERROR;	
+			estadoHttp = HttpStatus.INTERNAL_SERVER_ERROR;
 			mensaje = "Hubo un fallo. Contacte al administrador";
-					}
-		return new ResponseEntity<>(mensaje, estadoHttp);		
+			mensajeRespuestaOrigen.setMensaje(mensaje);
+			mensajeRespuestaOrigen.setPeticionExitosa(false);
+		}
+		return new ResponseEntity<>(mensajeRespuestaOrigen, estadoHttp);		
 	}
 
 	@PostMapping("/{idCuenta}/transferencia")
-	public ResponseEntity<?> addSaldo(@RequestBody MovimientoEntity movimientoOrigen, @PathVariable("idCuenta") long idCuenta,
-			@PathParam("cuentaDestino") Long idCuentaDestino, MovimientoEntity movimientoDestino) {
-		
+	public ResponseEntity<GeneralResponse<Integer>> addSaldo(@RequestBody MovimientoEntity movimientoOrigen, @PathVariable("idCuenta") Long idCuenta,
+			@PathParam("idCuentaDestino") Long idCuentaDestino, MovimientoEntity movimientoDestino) {
+		GeneralResponse<Integer> respuesta = new GeneralResponse<>();
 		Optional<ProductoEntity> productoOrigen = null;
 		Optional<ProductoEntity> productoDestino = null;
-		
-		HttpStatus estadoHttp = null;
 		String mensaje = null;	
+		HttpStatus estadoHttp = null;		
 		
-		try {
+		try {	
+			
+			System.out.println("idCuenta: " + idCuenta);
+			System.out.println("idCuentaDestino: " + idCuentaDestino);
 			productoOrigen = productoService.findById(idCuenta);
 			productoDestino = productoService.findById(idCuentaDestino);
 			
 			double valorTransaccion = movimientoOrigen.getValor();
 			
-			boolean saldoValidado = validarSaldo(productoOrigen, valorTransaccion);
+			boolean saldoValidado = validarSaldo(productoOrigen, valorTransaccion); //validar si el saldo al retirar dinero inluyendo GMF es suficiente
+			GeneralResponse<?> mensajeRespuestaOrigen = valEstadosProductoOri(productoOrigen, saldoValidado); //valida estado producto/cuenta de origen
+			GeneralResponse<?> mensajeRespuestaDestino = valEstadosProductoDes(productoDestino); //valida estado producto/cuenta destino
+
 			
-			GeneralResponse mensajeRespuesta = validarEstadosOperacion(productoOrigen, productoDestino, saldoValidado);
-			
-			//ResponseEntity<?> respuesta = validarEstadosOperacion(productoOrigen, productoDestino, saldoValidado);
-			ResponseEntity<?> respuesta;
-			if (saldoValidado && !mensajeRespuesta.isPeticionExitosa()) {
+			if (saldoValidado && mensajeRespuestaOrigen.isPeticionExitosa() && mensajeRespuestaDestino.isPeticionExitosa()) {
 				movimientoOrigen.setCuentaDestino(idCuentaDestino);
+				movimientoOrigen.setTipoMovimiento("transferencia");
 				realizarTransferenciaDebito(productoOrigen, movimientoOrigen);
 				movimientoDestino.setCuentaDestino(productoOrigen.get().getId());			
 				realizarTransferenciaCredito(productoDestino, movimientoDestino,valorTransaccion);
-				mensaje = mensajeRespuesta.getMensaje() + " (Transferencia)";
-				estadoHttp = HttpStatus.CREATED;
-				
-					
-			}else {
-				mensaje = mensajeRespuesta.getMensaje() + "(Transferencia Error)";
-				estadoHttp = HttpStatus.CONFLICT;
-			}		
+				mensaje = mensajeRespuestaOrigen.getMensaje() + " (Transferencia)";
+				estadoHttp = HttpStatus.CREATED;	
+			}else if (!mensajeRespuestaOrigen.isPeticionExitosa()){
+				mensaje = mensajeRespuestaOrigen.getMensaje() + "(Transferencia Error)";
+				estadoHttp = HttpStatus.OK;				
+			}else if (!mensajeRespuestaDestino.isPeticionExitosa()){
+				mensaje = mensajeRespuestaDestino.getMensaje() + "(Transferencia Error)";
+				estadoHttp = HttpStatus.OK;				
+			}
+			else {
+				mensaje = "1 - Error método no identificado, contacte soporte" + "(Transferencia Error)" ;
+				estadoHttp = HttpStatus.OK;
+			}
+			
+			respuesta.setDatos(0);
+			respuesta.setMensaje(mensaje);
+			respuesta.setPeticionExitosa(true);
 			
 		} catch (Exception e) {
-			estadoHttp = HttpStatus.INTERNAL_SERVER_ERROR;	
+			estadoHttp = HttpStatus.INTERNAL_SERVER_ERROR;
 			mensaje = "Hubo un fallo. Contacte al administrador";
+			respuesta.setMensaje(mensaje);
+			respuesta.setPeticionExitosa(false);
 		}
 		
-		return new ResponseEntity<>(mensaje, estadoHttp);
+		return new ResponseEntity<>(respuesta, estadoHttp);
 	}
 	
-	private GeneralResponse validarEstadosOperacion(Optional<ProductoEntity> productoOrigen,
-			Optional<ProductoEntity> productoDestino, boolean saldoValidado) {
+	private GeneralResponse<Integer> valEstadosProductoOri(Optional<ProductoEntity> productoOrigen, boolean saldoValidado) {
 		
-		GeneralResponse mensajeRespuesta = new GeneralResponse();
+		GeneralResponse<Integer> mensajeRespuesta = new GeneralResponse<>();
 		
-		if (productoOrigen.get().getEstado().equals("inactivo")) {
+		if (productoOrigen.get().getEstado().toLowerCase().equals("inactivo")) {
 			mensajeRespuesta.setMensaje("1 - El producto origen está inactivo");
-			mensajeRespuesta.setPeticionExitosa(true);
+			mensajeRespuesta.setPeticionExitosa(false);
 			return mensajeRespuesta;			
-		} else if (productoOrigen.get().getEstado().equals("cancelado")) {
+		} else if (productoOrigen.get().getEstado().toLowerCase().equals("cancelado")) {
 			mensajeRespuesta.setMensaje("1- El producto de origen está cancelado");
-			mensajeRespuesta.setPeticionExitosa(true);
+			mensajeRespuesta.setPeticionExitosa(false);
 			return mensajeRespuesta;
-		}else if (productoDestino.get().getEstado().equals("cancelado")) {
-			mensajeRespuesta.setMensaje("1- El producto de destino está cancelado");
-			mensajeRespuesta.setPeticionExitosa(true);
-			return mensajeRespuesta;
-		}else if (productoDestino.get().getEstado().equals("inactivo")) {
-			mensajeRespuesta.setMensaje("1- El producto de destino está inactivo");
-			mensajeRespuesta.setPeticionExitosa(true);
-			return mensajeRespuesta;
-		} else if (productoOrigen.get().getTipoCuenta().equals("ahorro") && !saldoValidado) {
+		} else if (productoOrigen.get().getTipoCuenta().toLowerCase().equals("ahorro") && !saldoValidado) {
 			mensajeRespuesta.setMensaje("2 - fondos insuficiente");
-			mensajeRespuesta.setPeticionExitosa(true);
+			mensajeRespuesta.setPeticionExitosa(false);
 			return mensajeRespuesta;
-
-		} else if (productoOrigen.get().getTipoCuenta().equals("corriente") && !saldoValidado) {
+		} else if (productoOrigen.get().getTipoCuenta().toLowerCase().equals("corriente") && !saldoValidado) {
 			mensajeRespuesta.setMensaje("2 - Fondos insuficientes - La cuenta corriente no puede sobregirarse a más de $2000000");
-			mensajeRespuesta.setPeticionExitosa(true);
+			mensajeRespuesta.setPeticionExitosa(false);
 			return mensajeRespuesta;
 		} else {
 			mensajeRespuesta.setMensaje("0 - Operación realizada Exitosamente");
-			mensajeRespuesta.setPeticionExitosa(false);		
+			mensajeRespuesta.setPeticionExitosa(true);		
 			return mensajeRespuesta;
 			}		
 	}
-	/*private ResponseEntity<?> validarEstadosOperacion(Optional<ProductoEntity> productoOrigen,
-			Optional<ProductoEntity> productoDestino, boolean saldoValidado) {
-		if (productoOrigen.get().getEstado().equals("inactivo")) {
-			return new ResponseEntity<>("1 - El producto origen está inactivo", HttpStatus.BAD_REQUEST);
-		} else if (productoOrigen.get().getEstado().equals("cancelado")) {
-			return new ResponseEntity<>("1- El producto de origen está cancelado", HttpStatus.BAD_REQUEST);
-		}else if (productoDestino.get().getEstado().equals("cancelado")) {
-			return new ResponseEntity<>("1- El producto de destino está cancelado", HttpStatus.BAD_REQUEST);
-		}else if (productoDestino.get().getEstado().equals("inactivo")) {
-			return new ResponseEntity<>("1- El producto de destino está inactivo", HttpStatus.BAD_REQUEST);
-		} else if (productoOrigen.get().getTipoCuenta().equals("ahorro") && !saldoValidado) {
-			return new ResponseEntity<>("2 - fondos insuficiente", HttpStatus.BAD_REQUEST);
-
-		} else if (productoOrigen.get().getTipoCuenta().equals("corriente") && !saldoValidado) {
-			return new ResponseEntity<>("2 - Fondos insuficientes - La cuenta corriente no puede sobregirarse a más de $2000000",
-					HttpStatus.BAD_REQUEST);
-		} else {
-			return new ResponseEntity<>("Operación realizada exitozamente", HttpStatus.OK);
-		}
+	private GeneralResponse<?> valEstadosProductoDes(Optional<ProductoEntity> productoDestino) {
+		GeneralResponse mensajeRespuesta = new GeneralResponse<>();
+		if (productoDestino.get().getEstado().toLowerCase().equals("cancelado")) {
+			mensajeRespuesta.setMensaje("1- El producto de destino está cancelado");
+			mensajeRespuesta.setPeticionExitosa(false);
+			return mensajeRespuesta;
+		}else if(productoDestino.get().getEstado().toLowerCase().equals("inactivo")) {
+			mensajeRespuesta.setMensaje("1- El producto de destino está inactivo");
+			mensajeRespuesta.setPeticionExitosa(false);
+			return mensajeRespuesta;
+		}else {
+			mensajeRespuesta.setMensaje("0 - Operación realizada Exitosamente");
+			mensajeRespuesta.setPeticionExitosa(true);		
+			return mensajeRespuesta;
+		}		
+		
 	}
-*/
+	
 	private boolean validarSaldo(Optional<ProductoEntity> productoOrigen, double valorTransaccion) {
 		boolean saldoValidado = false;
 		
-		double saldo = productoOrigen.get().getSaldo() - valorTransaccion;
 		double saldoGMF = productoOrigen.get().getSaldo() - valorTransaccion
 				- valorTransaccion * 0.004;
 
-		if (productoOrigen.get().getTipoCuenta().equals("ahorro") && productoOrigen.get().getEstado().equals("activo")
+		if (productoOrigen.get().getTipoCuenta().toLowerCase().equals("ahorro") && productoOrigen.get().getEstado()
+				.toLowerCase().equals("activo")
 				&& saldoGMF >= 0) {
 			saldoValidado = true;
 		}
-		if (productoOrigen.get().getTipoCuenta().equals("corriente")
-				&& productoOrigen.get().getEstado().equals("activo") && saldoGMF >= (-2000000)) {
+		if (productoOrigen.get().getTipoCuenta().toLowerCase().equals("corriente")
+				&& productoOrigen.get().getEstado().toLowerCase().equals("activo") && saldoGMF >= (-2000000)) {
 			saldoValidado = true;
 		}	
 		return saldoValidado;
 	}
 
 	private void realizarTransferenciaDebito(Optional<ProductoEntity> productoOrigen, MovimientoEntity movimientoOrigen) {
-		double valorTransaccion = movimientoOrigen.getValor();
 		HttpStatus estadoHttp = null;
 		try {
 			// registro de operación sin GMF
-			movimientoOrigen = realizarMovimientoDebito(productoOrigen, movimientoOrigen, valorTransaccion);	
+			movimientoOrigen.setTipoMovimiento("transferencia");
+			movimientoOrigen = realizarMovimientoDebito(productoOrigen, movimientoOrigen);	
 			productoOrigen.get().setSaldo(movimientoOrigen.getSaldoFinal());
 			productoService.add(productoOrigen.get());
 			movimientoService.add(movimientoOrigen);		
 			// registro de operación del gmf
-			MovimientoEntity movimientoGMF = realizarMovimientoGMF(productoOrigen,valorTransaccion);		
+			MovimientoEntity movimientoGMF = realizarMovimientoGMF(productoOrigen,movimientoOrigen.getValor());		
 			productoOrigen.get().setSaldo(movimientoGMF.getSaldoFinal());
 			productoService.add(productoOrigen.get());
 			movimientoService.add(movimientoGMF);
@@ -287,11 +322,10 @@ public class MovimientoController {
 
 	
 	private MovimientoEntity realizarMovimientoDebito(Optional<ProductoEntity> productoOrigen,
-			MovimientoEntity movimientoOrigen, double valorTransaccion) {		
+			MovimientoEntity movimientoOrigen) {		
 		movimientoOrigen.setSaldoInicial(productoOrigen.get().getSaldo());
-		double saldo = productoOrigen.get().getSaldo() - valorTransaccion;	
+		double saldo = productoOrigen.get().getSaldo() - movimientoOrigen.getValor();	
 		movimientoOrigen.setSaldoFinal(saldo);
-		movimientoOrigen.setTipoMovimiento("transferencia");
 		movimientoOrigen.setFecha(LocalDate.now());
 		movimientoOrigen.setTipoDebito("debito");
 		movimientoOrigen.setCuentaId(productoOrigen.get().getId());
@@ -302,8 +336,7 @@ public class MovimientoController {
 		MovimientoEntity movimientoGMF = new MovimientoEntity();
 		movimientoGMF.setSaldoInicial(productoOrigen.get().getSaldo());
 		
-		double saldoGMF = productoOrigen.get().getSaldo() - valorTransaccion
-				- valorTransaccion * 0.004;		
+		double saldoGMF = productoOrigen.get().getSaldo() - valorTransaccion * 0.004;		
 		movimientoGMF.setSaldoFinal(saldoGMF);
 		movimientoGMF.setValor(valorTransaccion * 0.004);
 		movimientoGMF.setFecha(LocalDate.now());
@@ -336,8 +369,6 @@ public class MovimientoController {
 		}
 		
 	}
-	
-	
 	
 
 	private void realizarRetiro(Optional<ProductoEntity> productoOrigen, MovimientoEntity movimientoOrigen) {

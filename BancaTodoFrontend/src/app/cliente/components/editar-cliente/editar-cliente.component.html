@@ -1,44 +1,103 @@
 <div class="container-mt-5 mt-3" *ngIf="cliente">
   <div class="row">
     <div class="col-md-4 mx-auto">
+      <div class="card mt-2">
+        <div class="card-header text-center">EDITAR CLIENTE</div>
 
-      <form (ngSubmit)="onUpdate()" novalidate #f="ngForm">
-        <div class="mb-3">
-          <label for="tipoIdentificacion" class="form-label">Tipo Identificación</label>
-          <input type="text" class="form-control" id="tipoIdentificacion" name="tipoIdentificacion" aria-describedby="emailHelp"
-          [(ngModel)]="cliente.tipoIdentificacion" required>
-        </div>
-        <div class="mb-3">
-          <label for="numIdentificacion" class="form-label">Número Identificación</label>
-          <input type="number" class="form-control" id="numIdentificacion" name="numIdentificacion" aria-describedby="emailHelp"
-          [(ngModel)]="cliente.numeroIdentificacion" required>
-        </div>
-        <div class="mb-3">
-          <label for="nombres" class="form-label">Nombres</label>
-          <input type="text" class="form-control" id="nombres" name="nombres" aria-describedby="emailHelp"
-          [(ngModel)]="cliente.nombres" required>
-        </div>
-        <div class="mb-3">
-          <label for="apellidos" class="form-label">Apellidos</label>
-          <input type="text" class="form-control" id="apellidos" name="apellidos" aria-describedby="emailHelp"
-          [(ngModel)]="cliente.apellidos" required>
-        </div>
-        <div class="mb-3">
-          <label for="correo" class="form-label">Correo</label>
-          <input type="email" class="form-control" id="correo" name="correo" aria-describedby="emailHelp"
-          [(ngModel)]="cliente.correo" required>
-        </div>
-        <div class="mb-3">
-          <label for="fecha" class="form-label">Fecha Nacimiento</label>
-          <input type="date" class="form-control" id="fecha" name="fecha" max="2004-04-20" aria-describedby="emailHelp"
-          [(ngModel)]="cliente.fechaNacimiento" required>
-        </div>
-        <button class="btn btn-outline-success" [disabled]="!f.valid">actualizar</button>
-        <button class="btn btn-outline-primary ms-3" routerLink="/">Volver</button>
-      </form>
+        <div class="card-body">
+          <form (ngSubmit)="onUpdate()" novalidate #f="ngForm">
+            <div class="mb-3">
+              <label for="tipoIdentificacion" class="form-label"
+                >Tipo Identificación</label
+              >
+              <select
+                name="selectDepartment"
+                [(ngModel)]="valorSeleccion"
+                [compareWith]="comparacion"
+                class="form-select mb-3"
 
+              >
+                <option
+                  *ngFor="let data of dataIdentificacion"
+                  [ngValue]="data"
+                >
+                  {{ data }}
+                </option>
+              </select>
+            </div>
 
+            <div class="mb-3">
+              <label for="numIdentificacion" class="form-label"
+                >Número Identificación</label
+              >
+              <input
+                type="number"
+                class="form-control"
+                id="numIdentificacion"
+                name="numIdentificacion"
+                aria-describedby="emailHelp"
+                [(ngModel)]="cliente.numeroIdentificacion"
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label for="nombres" class="form-label">Nombres</label>
+              <input
+                type="text"
+                class="form-control"
+                id="nombres"
+                name="nombres"
+                aria-describedby="emailHelp"
+                [(ngModel)]="cliente.nombres"
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label for="apellidos" class="form-label">Apellidos</label>
+              <input
+                type="text"
+                class="form-control"
+                id="apellidos"
+                name="apellidos"
+                aria-describedby="emailHelp"
+                [(ngModel)]="cliente.apellidos"
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label for="correo" class="form-label">Correo</label>
+              <input
+                type="email"
+                class="form-control"
+                id="correo"
+                name="correo"
+                aria-describedby="emailHelp"
+                [(ngModel)]="cliente.correo"
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label for="fecha" class="form-label">Fecha Nacimiento</label>
+              <input
+                type="date"
+                class="form-control"
+                id="fecha"
+                name="fecha"
+                max="2004-04-20"
+                aria-describedby="emailHelp"
+                [(ngModel)]="cliente.fechaNacimiento"
+                required
+              />
+            </div>
+            <button class="btn btn-outline-success" [disabled]="!f.valid">
+              actualizar
+            </button>
+            <button class="btn btn-outline-primary ms-3" routerLink="/">
+              Volver
+            </button>
+          </form>
+        </div>
+      </div>
     </div>
-
   </div>
 </div>
