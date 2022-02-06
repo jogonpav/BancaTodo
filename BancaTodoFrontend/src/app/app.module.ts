@@ -9,8 +9,8 @@ import { NuevoClienteComponent } from './cliente/components/nuevo-cliente/nuevo-
 import { EditarClienteComponent } from './cliente/components/editar-cliente/editar-cliente.component';
 import { MatSelectModule } from '@angular/material/select';
 
-import{HttpClientModule} from '@angular/common/http';
-import{FormsModule} from '@angular/forms';
+import{HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
+import{FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 //externals
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -22,6 +22,14 @@ import { ConsignarComponentsComponent } from './accounts/transactions/components
 import { CreateAccountsComponent } from './accounts/components/create-accounts/create-accounts.component';
 import { RetirarComponentsComponent } from './accounts/transactions/components/retirar-components/retirar-components.component';
 import { TransferirComponentsComponent } from './accounts/transactions/components/transferir-components/transferir-components.component';
+import { MatCardModule } from '@angular/material/card';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatInputModule } from '@angular/material/input';
+import { LoginComponent } from './core/login/login.component';
+import { HttpConfigInterceptor } from './core/HttpConfigInterceptor';
 
 
 @NgModule({
@@ -38,6 +46,9 @@ import { TransferirComponentsComponent } from './accounts/transactions/component
     CreateAccountsComponent,
     RetirarComponentsComponent,
     TransferirComponentsComponent,
+    LoginComponent,
+
+
   ],
   imports: [
     BrowserModule,
@@ -45,10 +56,18 @@ import { TransferirComponentsComponent } from './accounts/transactions/component
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
     HttpClientModule,
+    //user
     FormsModule,
-    MatSelectModule
+    MatSelectModule,
+    MatCardModule,
+    ReactiveFormsModule,
+    MatInputModule,
+    MatDividerModule,
+    MatButtonModule,
+    MatDialogModule,
+    MatSnackBarModule
   ],
-  providers: [],
+  providers: [{provide: HTTP_INTERCEPTORS,useClass: HttpConfigInterceptor, multi:true}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

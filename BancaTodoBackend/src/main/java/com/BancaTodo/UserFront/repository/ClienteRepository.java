@@ -1,4 +1,4 @@
-package com.BancaTodo.UserFront.dao;
+package com.BancaTodo.UserFront.repository;
 
 import org.springframework.data.repository.CrudRepository;
 

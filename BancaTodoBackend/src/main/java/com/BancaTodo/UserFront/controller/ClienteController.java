@@ -23,7 +23,7 @@ import com.BancaTodo.UserFront.entity.ProductoEntity;
 import com.BancaTodo.UserFront.services.ClienteService;
 import com.BancaTodo.UserFront.services.ProductoService;
 
-@CrossOrigin(origins = { "http://localhost:4200" })
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/clientes")
 public class ClienteController {
@@ -35,8 +35,8 @@ public class ClienteController {
 	private ProductoService productoService;
 
 	// Retornar lista de clientes
+	//@CrossOrigin(origins = "*")
 	@GetMapping("")
-
 	public ResponseEntity<GeneralResponse<List<ClienteEntity>> > listar() {
 		GeneralResponse <List<ClienteEntity>> respuesta = new GeneralResponse<>();
 		List<ClienteEntity> datos = null;

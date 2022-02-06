@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.BancaTodo.UserFront.dao.MovimientoRepository;
 import com.BancaTodo.UserFront.entity.MovimientoEntity;
+import com.BancaTodo.UserFront.repository.MovimientoRepository;
 import com.BancaTodo.UserFront.services.MovimientoService;
 
 @Service

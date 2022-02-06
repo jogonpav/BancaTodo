@@ -6,8 +6,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.BancaTodo.UserFront.dao.ProductoRepository;
 import com.BancaTodo.UserFront.entity.ProductoEntity;
+import com.BancaTodo.UserFront.repository.ProductoRepository;
 import com.BancaTodo.UserFront.services.ProductoService;
 
 

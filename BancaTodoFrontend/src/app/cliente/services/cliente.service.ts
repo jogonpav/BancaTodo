@@ -16,9 +16,7 @@ export class ClienteService {
     return this.httpCliente.get<GeneralResponse<Cliente[]>>(this.clienteURL + '');
   }
 
-  /* public lista(): Observable<Cliente[]> {
-    return this.httpCliente.get<Cliente[]>(this.clienteURL + '');
-  } */
+
   public detail(id:number): Observable<GeneralResponse<Cliente>>{
     return this.httpCliente.get<GeneralResponse<Cliente>>(this.clienteURL +`${id}`);
   }

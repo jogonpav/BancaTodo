@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.BancaTodo.UserFront.dao.ClienteRepository;
 import com.BancaTodo.UserFront.entity.ClienteEntity;
+import com.BancaTodo.UserFront.repository.ClienteRepository;
 import com.BancaTodo.UserFront.services.ClienteService;
 
 

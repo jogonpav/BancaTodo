@@ -19,17 +19,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.BancaTodo.UserFront.dto.GeneralResponse;
-import com.BancaTodo.UserFront.dto.Mensaje;
 import com.BancaTodo.UserFront.entity.ProductoEntity;
 import com.BancaTodo.UserFront.services.ProductoService;
 
-@CrossOrigin(origins = { "http://localhost:4200" })
+@CrossOrigin(origins = { "*" })
 @RestController
 @RequestMapping("/productos")
 public class ProductoController {
 
 	@Autowired
 	private ProductoService productoService;
+	
+	
 
 	// Lista productos por clienteId
 	@GetMapping

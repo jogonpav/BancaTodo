@@ -23,7 +23,7 @@ import com.BancaTodo.UserFront.entity.ProductoEntity;
 import com.BancaTodo.UserFront.services.MovimientoService;
 import com.BancaTodo.UserFront.services.ProductoService;
 
-@CrossOrigin(origins = { "http://localhost:4200" })
+@CrossOrigin(origins = { "*" })
 @RestController
 @RequestMapping("/productos")
 public class MovimientoController {

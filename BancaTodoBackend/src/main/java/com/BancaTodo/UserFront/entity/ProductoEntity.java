@@ -46,9 +46,9 @@ public class ProductoEntity {
 	
 	
 
-	public ProductoEntity(Long id, String tipoCuenta, Integer numeroCuenta, String estado, LocalDate fechaApertura, Double saldo,
+	public ProductoEntity(String tipoCuenta, Integer numeroCuenta, String estado, LocalDate fechaApertura, Double saldo,
 			Long clienteId) {
-		this.id = id;
+		
 		this.tipoCuenta = tipoCuenta;
 		this.numeroCuenta = numeroCuenta;
 		this.estado = estado;

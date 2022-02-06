@@ -9,9 +9,10 @@ import { DetalleClienteComponent } from './cliente/components/detalle-cliente/de
 import { EditarClienteComponent } from './cliente/components/editar-cliente/editar-cliente.component';
 import { ListaClienteComponent } from './cliente/components/lista-cliente/lista-cliente.component';
 import { NuevoClienteComponent } from './cliente/components/nuevo-cliente/nuevo-cliente.component';
+import { LoginComponent } from './core/login/login.component';
 
 const routes: Routes = [
-  {path: '', component: ListaClienteComponent},
+  {path: '', component: LoginComponent},
   {path: 'listar', component: ListaClienteComponent},
   {path: 'nuevo', component: NuevoClienteComponent},
   {path: 'editar/:id', component:EditarClienteComponent},
