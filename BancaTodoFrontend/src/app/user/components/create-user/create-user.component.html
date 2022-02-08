@@ -1,0 +1,65 @@
+<div class="container-mt-5 mt-3">
+  <div class="row">
+    <div class="col-md-4 mx-auto">
+      <div class="card mt-2">
+        <div class="card-header text-center">REGISTRO DE CLIENTE</div>
+        <div class="card-body">
+          <form (ngSubmit)="onCreate()" novalidate #f="ngForm">
+            <div class="mb-3">
+              <label for="userName" class="form-label"
+                >User Name</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="userName"
+                name="userName"
+                aria-describedby="emailHelp"
+                [(ngModel)]="userName"
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label for="password" class="form-label">Password</label>
+              <input
+                type="password"
+                class="form-control"
+                id="password"
+                name="password"
+                aria-describedby="emailHelp"
+                [(ngModel)]="password"
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label for="lastname" class="form-label">Last Name</label>
+              <input
+                type="text"
+                class="form-control"
+                id="lastname"
+                name="lastname"
+                aria-describedby="emailHelp"
+                [(ngModel)]="lastName"
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label for="firstname" class="form-label">First Name</label>
+              <input
+                type="text"
+                class="form-control"
+                id="firstname"
+                name="firstname"
+                aria-describedby="emailHelp"
+                [(ngModel)]="firstName"
+                required
+              />
+            </div>
+            <button class="btn btn-primary" [disabled]="!f.valid">Crear</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

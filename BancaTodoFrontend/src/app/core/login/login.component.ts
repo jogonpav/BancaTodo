@@ -6,6 +6,7 @@ import { GlobalService } from 'src/app/shared/services/global.service';
 import { User } from 'src/app/user/models/user';
 import { UserService } from 'src/app/user/services/user.service';
 
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -16,8 +17,6 @@ export class LoginComponent implements OnInit {
   @Output() login: EventEmitter<User> = new EventEmitter();
 
   form: FormGroup;
-
-
 
   constructor( private userService: UserService,
     private formBuilder: FormBuilder,
@@ -37,7 +36,6 @@ export class LoginComponent implements OnInit {
     }
 
     signIn() {
-
       const userName = this.form.controls['userName'].value;
       const password = this.form.controls['password'].value;
 
@@ -53,9 +51,9 @@ export class LoginComponent implements OnInit {
             this.toastr.success(respuesta.mensaje,'OK',{
               timeOut:4000, positionClass: 'toast-top-center',
             });
-
             //const token: string =  respuesta.datos.jwt;
             this.globalService.user = respuesta.datos;
+
 
             //console.log(token);
             this.router.navigate(['/listar']);

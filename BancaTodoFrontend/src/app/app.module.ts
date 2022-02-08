@@ -30,6 +30,9 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatInputModule } from '@angular/material/input';
 import { LoginComponent } from './core/login/login.component';
 import { HttpConfigInterceptor } from './core/HttpConfigInterceptor';
+import { CreateUserComponent } from './user/components/create-user/create-user.component';
+import { EditUserComponent } from './user/components/edit-user/edit-user.component';
+import { ResetPasswordComponent } from './user/components/reset-password/reset-password.component';
 
 
 @NgModule({
@@ -47,6 +50,9 @@ import { HttpConfigInterceptor } from './core/HttpConfigInterceptor';
     RetirarComponentsComponent,
     TransferirComponentsComponent,
     LoginComponent,
+    CreateUserComponent,
+    EditUserComponent,
+    ResetPasswordComponent,
 
 
   ],

@@ -19,17 +19,16 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	
 	@Autowired
 	public UserRepository userRepository;
-
+	
 	@Override
-	public UserEntity add(UserEntity user) throws Exception {
-		
-		return userRepository.save(user);
+	public UserEntity findUserByUserName(String userName) throws Exception {		
+		return userRepository.findByUserName(userName);
 	}
 
-//	@Override
-//	public UserEntity findByUserName(String UserName) throws Exception {		
-//		return userRepository.findByUserName(UserName);
-//	}
+	@Override
+	public UserEntity add(UserEntity user) throws Exception {		
+		return userRepository.save(user);
+	}
 	
 	@Override
 	public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
@@ -37,6 +36,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		UserDetails userDetails = new User(user.getUserName(), user.getPassword(), new ArrayList<>());		
 		return userDetails;
 	}
+
+	@Override
+	public void updateUserById(UserEntity user) throws Exception {	
+		userRepository.updateUserById(user.getFirstName(),user.getLastName(), user.getId());			
+	}
+
+	
 	
 
 }

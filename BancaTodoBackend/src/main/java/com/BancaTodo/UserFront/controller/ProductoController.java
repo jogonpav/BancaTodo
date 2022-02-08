@@ -39,9 +39,7 @@ public class ProductoController {
 		List<ProductoEntity> datos = null;
 		String mensaje = null;
 		HttpStatus estadoHttp = null;
-
 		try {
-
 			datos = productoService.findByclienteId(clienteId);
 			mensaje = "0 - se encontró " + datos.size() + " productos";
 

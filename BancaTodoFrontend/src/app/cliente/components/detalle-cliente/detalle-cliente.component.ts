@@ -54,6 +54,6 @@ export class DetalleClienteComponent implements OnInit {
     );
   }
   volver(): void {
-    this.router.navigate(['/']);
+    this.router.navigate(['/listar']);
   }
 }

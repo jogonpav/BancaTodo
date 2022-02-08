@@ -18,19 +18,22 @@ export class ListaClienteComponent implements OnInit {
 
   ngOnInit(): void {
     this.cargarClientes();
+
+    console.log(localStorage.getItem('tutorial'));
   }
 
   cargarClientes(): void{
+
     this.clienteService.lista().subscribe(
       respuesta => {
         if (respuesta.peticionExitosa){
           this.clientes = respuesta.datos;
+          localStorage.setItem('tutorial', 'Como utilizar el LocalStorage en Angular');
         }
 
       }, err => {console.log(err.error.mensaje)}
     )
   }
-
 
   borrar(id: number){
     this.clienteService.delete(id).subscribe(

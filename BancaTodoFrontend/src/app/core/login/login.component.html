@@ -1,26 +1,40 @@
 
-
-<div style="display: flex; justify-content: center;">
-  <mat-card>
-      <h2>Inicio de sesión</h2>
-      <mat-divider></mat-divider>
-
-      <div style="margin-top: 30px;">
-          <form class="example-form" [formGroup]="form">
-              <mat-form-field>
-                  <label for="nombre">Nombre Usuario</label>
-                  <input type="text" formControlName="userName" matInput>
-              </mat-form-field>
-              <br>
-              <mat-form-field>
-                <label for="password">Contraseña</label>
-                  <input type="password" formControlName="password" matInput>
-              </mat-form-field>
-              <br>
-              <button mat-raised-button color="primary" (click)="signIn()">Entrar</button>
-          </form>
+<body class="img js-fullheight" style="background-image: url(./assets/bancatodo-login.jpg);">
+<section class="ftco-section">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-6 text-center mb-5">
+        <h2 class="heading-section">BANCA TODO</h2>
       </div>
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-md-6 col-lg-4">
+        <div class="login-wrap p-0">
+          <h3 class="mb-4 text-center">Have an account?</h3>
+          <form action="#" class="signin-form" [formGroup]="form">
+            <div class="form-group">
+              <input type="text" class="form-control" formControlName="userName" placeholder="Username" required>
+            </div>
+            <div class="form-group">
+              <input id="password-field" type="password" formControlName="password" class="form-control" placeholder="Password" required>
+              <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+            </div>
+            <div class="form-group">
+              <button type="submit" class="form-control btn btn-primary submit px-3" (click)="signIn()">Log In</button>
+            </div>
+          </form>
+          <p class="w-100 text-center">&mdash; Or Sign In&mdash;</p>
+          <div class="social d-flex text-center">
+            <a class="px-2 py-2 ml-md-1 rounded"  routerLink="/user/create"><span class="ion-logo-twitter mr-2"></span> Sign In</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- <script src="js/jquery.min.js"></script>
+<script src="js/popper.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/main.js"></script> -->
+</body>
 
-
-  </mat-card>
-</div>

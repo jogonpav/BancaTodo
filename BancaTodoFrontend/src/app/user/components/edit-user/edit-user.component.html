@@ -1,0 +1,63 @@
+<div class="container-mt-5 mt-3" *ngIf="user">
+  <div class="row">
+    <div class="col-md-4 mx-auto">
+      <div class="card mt-2">
+        <div class="card-header text-center">EDITAR USUARIO</div>
+
+        <div class="card-body">
+          <form (ngSubmit)="onUpdate()" novalidate #f="ngForm">
+
+            <div class="mb-3">
+              <label for="userName" class="form-label"
+                >Username</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="userName"
+                name="userName"
+                aria-describedby="emailHelp"
+                [(ngModel)]="user.userName"
+                disabled
+              />
+            </div>
+
+            <div class="mb-3">
+              <label for="firstName" class="form-label"
+                >Nombres</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="firstName"
+                name="firstName"
+                aria-describedby="emailHelp"
+                [(ngModel)]="user.firstName"
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label for="lastName" class="form-label">Apellidos</label>
+              <input
+                type="text"
+                class="form-control"
+                id="lastName"
+                name="lastName"
+                aria-describedby="emailHelp"
+                [(ngModel)]="user.lastName"
+                required
+              />
+            </div>
+            <button type="submit" class="btn btn-outline-success" [disabled]="!f.valid">
+              actualizar
+            </button>
+            <button class="btn btn-outline-primary ms-3" routerLink="/">
+              Volver
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

@@ -20,7 +20,7 @@ export class HttpConfigInterceptor implements HttpInterceptor {
 
 
         const token: string = this.globalService.user && this.globalService.user.jwt ? this.globalService.user.jwt: "";
-        9
+        
 
         let request = req;
 
