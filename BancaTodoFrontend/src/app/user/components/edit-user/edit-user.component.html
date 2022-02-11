@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-md-4 mx-auto">
       <div class="card mt-2">
-        <div class="card-header text-center">EDITAR USUARIO</div>
+        <div class="card-header text-center">USER EDIT</div>
 
         <div class="card-body">
           <form (ngSubmit)="onUpdate()" novalidate #f="ngForm">
@@ -24,7 +24,7 @@
 
             <div class="mb-3">
               <label for="firstName" class="form-label"
-                >Nombres</label
+                >First Name</label
               >
               <input
                 type="text"
@@ -37,7 +37,7 @@
               />
             </div>
             <div class="mb-3">
-              <label for="lastName" class="form-label">Apellidos</label>
+              <label for="lastName" class="form-label">Last Name</label>
               <input
                 type="text"
                 class="form-control"
@@ -48,11 +48,11 @@
                 required
               />
             </div>
-            <button type="submit" class="btn btn-outline-success" [disabled]="!f.valid">
-              actualizar
+            <button type="submit" class="btn btn-success" [disabled]="!f.valid">
+              Update
             </button>
-            <button class="btn btn-outline-primary ms-3" routerLink="/">
-              Volver
+            <button class="btn btn-outline-primary ms-3" routerLink="/listar">
+              Return
             </button>
           </form>
         </div>

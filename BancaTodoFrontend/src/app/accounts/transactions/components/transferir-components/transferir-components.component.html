@@ -2,26 +2,26 @@
   <div class="row justify-content-center mt-5">
     <div class="col-4">
       <div class="card" style="width: 18rem">
-        <div class="card-header text-center">Transferencia</div>
-        <div class="card-header text-center">Detalle de Cuenta</div>
+        <div class="card-header text-center">Transfer</div>
+        <div class="card-header text-center">Account Details</div>
         <ul class="list-group list-group-flush">
-          <li class="list-group-item"><b>Tipo Cuenta: </b>{{ tipoCuenta }}</li>
+          <li class="list-group-item"><b>Account Type: </b>{{ tipoCuenta }}</li>
           <li class="list-group-item">
-            <b>Número de cuenta: </b>{{ numeroCuenta }}
+            <b>Account Number: </b>{{ numeroCuenta }}
           </li>
-          <li class="list-group-item"><b>Estado: </b>{{ estado }}</li>
-          <li class="list-group-item"><b>Saldo: </b>${{ saldo }}</li>
+          <li class="list-group-item"><b>Status: </b>{{ estado }}</li>
+          <li class="list-group-item"><b>Balance: </b>US${{ saldo }}</li>
         </ul>
       </div>
     </div>
     <div class="col-4">
       <div class="card">
-        <div class="card-header">TRANSFERENCIA ENTRE CUENTAS DEL CLIENTE</div>
+        <div class="card-header">TRANSFER BETWEEN CUSTOMER ACCOUNTS</div>
         <div class="card-body">
           <form name="entreCuentas" (ngSubmit)="transferirEntreCuentas()" novalidate #fEntreCuentas="ngForm">
             <div class="mb-3">
               <label for="valorEntreCuenta" class="form-label"
-                >Ingrese valor a Transferir</label
+                >Enter value to Transfer US$</label
               >
               <input
                 type="number"
@@ -36,7 +36,7 @@
             </div>
 
             <div class="mb-3">
-              <label for="descripcionAccountBetween" class="form-label">Descripción</label>
+              <label for="descripcionAccountBetween" class="form-label">Description</label>
               <input
                 type="text"
                 class="form-control"
@@ -48,14 +48,14 @@
               />
             </div>
             <div class="mb-3">
-              <span>Transferir a una cuentas del Cliente</span>
+              <span>Transfer to a customer account</span>
               <select
                 [(ngModel)]="idAccountBetweenTarget"
                 name="CuentaCliente"
                 class="form-select form-select-lg mb-3"
                 aria-describedby="emailHelp"
               >
-                <option value="0">Selecciona una opción</option>
+                <option value="0">Select an option</option>
                 <option
                   *ngFor="let accountBetween of accountsBetween"
                   [ngValue]="accountBetween.id"
@@ -66,22 +66,22 @@
               </select>
             </div>
             <button class="btn btn-primary w-100" [disabled]="!fEntreCuentas.valid">
-              Transferir
+              Transfer
             </button>
           </form>
           <button class="btn btn-outline-primary mt-2 w-100" (click)="volver()">
-            <i class="fas fa-arrow-circle-left"></i> Volver
+            <i class="fas fa-arrow-circle-left"></i> Return
           </button>
         </div>
       </div>
 
       <div class="card mt-5">
-        <div class="card-header">TRANSFERENCIA OTRAS CUENTAS</div>
+        <div class="card-header">TRANSFER TO OTHER ACCOUNTS</div>
         <div class="card-body">
           <form name="otrasCuentas" (ngSubmit)="transferirOherCeuntas()" novalidate #entreCuentas="ngForm">
             <div class="mb-3">
               <label for="valor" class="form-label"
-                >Ingrese valor a Transferir</label
+                >Enter value to Transfer US$</label
               >
               <input
                 type="number"
@@ -94,7 +94,7 @@
               />
             </div>
             <div class="mb-3">
-              <label for="descripcion" class="form-label">Descripción</label>
+              <label for="descripcion" class="form-label">Description</label>
               <input
                 type="text"
                 class="form-control"
@@ -106,14 +106,14 @@
               />
             </div>
             <div class="mb-3">
-              <span>Transferir a otras cuentas</span>
+              <span>Transfer to other accounts</span>
               <select
                 [(ngModel)]="idOtherAccountTarget"
                 name="otrasCuenta"
                 class="form-select form-select-lg mb-3"
                 aria-describedby="emailHelp"
               >
-                <option value="0">Selecciona una opción</option>
+                <option value="0">Select an option</option>
                 <option
                   *ngFor="let otherAccount of otherAccounts"
                   [ngValue]="otherAccount.id"
@@ -124,11 +124,11 @@
               </select>
             </div>
             <button class="btn btn-primary w-100" [disabled]="!entreCuentas.valid">
-              Transferir
+              Transfer
             </button>
           </form>
           <button class="btn btn-outline-primary mt-2 w-100" (click)="volver()">
-            <i class="fas fa-arrow-circle-left"></i> Volver
+            <i class="fas fa-arrow-circle-left"></i> Return
           </button>
         </div>
       </div>

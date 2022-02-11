@@ -1,14 +1,15 @@
 <div class="container">
+  <h2 class="text-center mt-5">Customers list</h2>
   <table class="table">
     <thead>
       <tr>
-        <th scope="col">Nombres</th>
-        <th scope="col">Apellidos</th>
-        <th scope="col">Tipo Identificación</th>
-        <th scope="col">Número Identificación</th>
-        <th scope="col">Ver</th>
-        <th scope="col">Editar</th>
-        <th scope="col">Eliminar</th>
+        <th scope="col">First name</th>
+        <th scope="col">Last name</th>
+        <th scope="col">Type ID</th>
+        <th scope="col">Number ID</th>
+        <th scope="col">Details</th>
+        <th scope="col">Edit</th>
+        <th scope="col">Delete</th>
       </tr>
     </thead>
     <tbody>
@@ -26,7 +27,7 @@
               class="fas fa-eye"
               routerLink="/cliente/{{ cliente.id }}/detalle"
             ></i>
-            Ver
+            Show
           </button>
         </td>
         <td>
@@ -34,12 +35,12 @@
             class="btn btn-outline-warning"
             routerLink="/editar/{{ cliente.id }}"
           >
-            <i class="fas fa-edit"></i> Editar
+            <i class="fas fa-edit"></i> Edit
           </button>
         </td>
         <td>
           <button class="btn btn-outline-danger" (click)="borrar(cliente.id)">
-            <i class="far fa-trash-alt"></i> Eliminar
+            <i class="far fa-trash-alt"></i> Delete
           </button>
         </td>
       </tr>

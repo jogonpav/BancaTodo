@@ -12,6 +12,8 @@ import { UserService } from '../../services/user.service';
 })
 export class ResetPasswordComponent implements OnInit {
 
+  isLogged = true;
+
   userDto: UserDto = new UserDto;
   confirmNewPassword: string;
 
@@ -23,17 +25,13 @@ export class ResetPasswordComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log(this.globalService.user.userName);
     this.userDto.user.userName = this.globalService.user.userName;
-
-    console.log('username: '+ this.globalService.user.userName);
   }
 
   onUpdate(): void {
-    /* this.userService.update(this.userDto).subscribe(
+    this.userService.resetPassword(this.userDto).subscribe(
       (respuesta) => {
         if (respuesta.peticionExitosa) {
-          console.log(respuesta.mensaje.charAt(0));
           if (respuesta.mensaje.charAt(0) == "0") {
             this.toastr.success(respuesta.mensaje, 'Ok', {
               timeOut: 4000,
@@ -44,19 +42,35 @@ export class ResetPasswordComponent implements OnInit {
               timeOut: 4000,
               positionClass: 'toast-top-center',
             });
-
           }
         }
-        this.router.navigate(['/']);
+        this.router.navigate(['/listar']);
       },
       (err) => {
-        this.toastr.error(err.error.mensaje, 'Fail', {
-          timeOut: 4000,
-          positionClass: 'toast-top-center',
-        });
-        this.router.navigate(['/']);
+        console.log(err.error.mensaje.charAt(0));
+        if (err.error.mensaje.charAt(0) == "1") {
+          this.toastr.error(err.error.mensaje, 'Ok', {
+            timeOut: 4000,
+            positionClass: 'toast-top-center',
+          });
+        }else{
+          this.toastr.error(err.error.mensaje, '¡Info!', {
+            timeOut: 4000,
+            positionClass: 'toast-top-center',
+          });
+          this.router.navigate(['/listar']);
+        }
       }
-    ); */
+    );
+  }
+
+  logout(): void {
+
+    this.globalService = new GlobalService();
+
+    this.isLogged = false;
+    this.router.navigate(['/listar'])
+
   }
 
 }

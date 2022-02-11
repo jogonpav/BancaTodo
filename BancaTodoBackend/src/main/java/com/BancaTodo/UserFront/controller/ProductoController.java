@@ -41,10 +41,10 @@ public class ProductoController {
 		HttpStatus estadoHttp = null;
 		try {
 			datos = productoService.findByclienteId(clienteId);
-			mensaje = "0 - se encontró " + datos.size() + " productos";
+			mensaje = "0 - found " + datos.size() + " accounts";
 
 			if (datos.isEmpty()) {
-				mensaje = "1 - No se encontró productos registrados";
+				mensaje = "1 - No registered accounts found";
 			}
 			respuesta.setDatos(datos);
 			respuesta.setMensaje(mensaje);
@@ -54,7 +54,7 @@ public class ProductoController {
 
 		} catch (Exception e) {
 
-			mensaje = "Ha fallado el sistema. Contacte al administrador";
+			mensaje = "There was an error. Contact the administrator";
 			respuesta.setMensaje(mensaje);
 			respuesta.setPeticionExitosa(false);
 			estadoHttp = HttpStatus.INTERNAL_SERVER_ERROR;
@@ -73,16 +73,16 @@ public class ProductoController {
 
 		try {
 			datos = productoService.findById(id);
-			mensaje = "0 - Producto encontrado";
+			mensaje = "0 - Account found.";
 			if (datos.isEmpty()) {
-				mensaje = "1 - No se encontró producto";
+				mensaje = "1 - Not accounts found.";
 			}
 			respuesta.setDatos(datos);
 			respuesta.setMensaje(mensaje);
 			respuesta.setPeticionExitosa(true);
 			estadoHttp = HttpStatus.OK;
 		} catch (Exception e) {
-			mensaje = "Ha fallado el sistema. Contacte al administrador";
+			mensaje = "There was an error. Contact the administrator";
 			respuesta.setMensaje(mensaje);
 			respuesta.setPeticionExitosa(false);
 			estadoHttp = HttpStatus.INTERNAL_SERVER_ERROR;
@@ -102,10 +102,10 @@ public class ProductoController {
 
 		try {
 			datos = productoService.findProductosByIdClienteDistintctId(idProducto, idCliente);			
-			mensaje = "0 - se encontró " + datos.size() + " productos";
+			mensaje = "0 - found " + datos.size() + " accounts";
 
 			if (datos.isEmpty()) {
-				mensaje = "1 - No se encontró productos registrados";
+				mensaje = "1 - Not accounts found.";
 			}
 			respuesta.setDatos(datos);
 			respuesta.setMensaje(mensaje);
@@ -115,7 +115,7 @@ public class ProductoController {
 
 		} catch (Exception e) {
 
-			mensaje = "Ha fallado el sistema. Contacte al administrador";
+			mensaje = "There was an error. Contact the administrator";
 			respuesta.setMensaje(mensaje);
 			respuesta.setPeticionExitosa(false);
 			estadoHttp = HttpStatus.INTERNAL_SERVER_ERROR;
@@ -135,10 +135,10 @@ public class ProductoController {
 
 		try {
 			datos = productoService.findByDistintctIdCliente(clienteId);			
-			mensaje = "0 - se encontró " + datos.size() + " productos";
+			mensaje = "0 - found " + datos.size() + " accounts";
 
 			if (datos.isEmpty()) {
-				mensaje = "1 - No se encontró productos registrados";
+				mensaje = "1 - Not accounts found.";
 			}
 			respuesta.setDatos(datos);
 			respuesta.setMensaje(mensaje);
@@ -148,7 +148,7 @@ public class ProductoController {
 
 		} catch (Exception e) {
 
-			mensaje = "Ha fallado el sistema. Contacte al administrador";
+			mensaje = "There was an error. Contact the administrator";
 			respuesta.setMensaje(mensaje);
 			respuesta.setPeticionExitosa(false);
 			estadoHttp = HttpStatus.INTERNAL_SERVER_ERROR;
@@ -171,12 +171,12 @@ public class ProductoController {
 		try {
 			producto.setSaldo((double) 0);
 			producto.setClienteId(clienteId);
-			producto.setEstado("activo");
+			producto.setEstado("enabled");
 			producto.setFechaApertura(LocalDate.now());
 
 			productoService.add(producto);
 			datos = 0;
-			mensaje = "0 - Producto creado exitosamente";
+			mensaje = "0 - Account created successfully";
 
 			respuesta.setDatos(datos);
 			respuesta.setMensaje(mensaje);
@@ -186,7 +186,7 @@ public class ProductoController {
 		} catch (Exception e) {
 
 			estadoHttp = HttpStatus.INTERNAL_SERVER_ERROR;
-			mensaje = "Hubo un fallo. Contacte al administrador";
+			mensaje = "There was an error. Contact the administrator";
 			respuesta.setMensaje(mensaje);
 			respuesta.setPeticionExitosa(false);
 
@@ -198,7 +198,7 @@ public class ProductoController {
 	@PutMapping("/{idProducto}/activate")
 	public ResponseEntity<GeneralResponse<Optional<ProductoEntity>>> activate(
 			@PathVariable("idProducto") Long idProducto) {
-		String tipoEstado = "activo";
+		String tipoEstado = "enabled";
 		ResponseEntity<GeneralResponse<Optional<ProductoEntity>>> respuesta = cambiarEstado(tipoEstado, idProducto);
 		return respuesta;
 	}
@@ -206,7 +206,7 @@ public class ProductoController {
 	@PutMapping("/{idProducto}/inactivate")
 	public ResponseEntity<GeneralResponse<Optional<ProductoEntity>>> inactivate(
 			@PathVariable("idProducto") Long idProducto) {
-		String tipoEstado = "inactivo";
+		String tipoEstado = "disabled";
 		ResponseEntity<GeneralResponse<Optional<ProductoEntity>>> respuesta = cambiarEstado(tipoEstado, idProducto);
 		return respuesta;
 	}
@@ -214,7 +214,7 @@ public class ProductoController {
 	@PutMapping("/{idProducto}/cancel")
 	public ResponseEntity<GeneralResponse<Optional<ProductoEntity>>> cancel(
 			@PathVariable("idProducto") Long idProducto) {
-		String tipoEstado = "cancelado";
+		String tipoEstado = "cancelled";
 		ResponseEntity<GeneralResponse<Optional<ProductoEntity>>> respuesta = cambiarEstado(tipoEstado, idProducto);
 		return respuesta;
 	}
@@ -230,25 +230,25 @@ public class ProductoController {
 			datos = productoService.findById(idProducto);
 
 			switch (tipoEstado) {
-			case "activo":
-				if (!datos.get().getEstado().toLowerCase().equals("cancelado")) {
+			case "enabled":
+				if (!datos.get().getEstado().toLowerCase().equals("cancelled")) {
 					datos.get().setEstado(tipoEstado);
-					mensaje = "0 - Producto activado";
+					mensaje = "0 - Account enabled";
 					break;
 				} else {
-					mensaje = "1 - El producto no se puede activar, el producto fue cancelado";
+					mensaje = "1 - The product cannot be activated, the product was canceled";
 				}
 				break;
-			case "inactivo":
+			case "disabled":
 				datos.get().setEstado(tipoEstado);
-				mensaje = "0 - Producto desactivado";
+				mensaje = "0 - Account disabled";
 				break;
-			case "cancelado":
+			case "cancelled":
 				if (datos.get().getSaldo() == 0) {
 					datos.get().setEstado(tipoEstado);
-					mensaje = "0 - Producto cancelado";
+					mensaje = "0 - Account cancelled";
 				} else {
-					mensaje = "1 - El producto no se puede cancelar, el saldo debe ser de $0";
+					mensaje = "1 - Account cannot be cancelled, balance must be US$0";
 				}
 				break;
 			}
@@ -260,7 +260,7 @@ public class ProductoController {
 
 		} catch (Exception e) {
 			estadoHttp = HttpStatus.INTERNAL_SERVER_ERROR;
-			mensaje = "Hubo un fallo. Contacte al administrador";
+			mensaje = "There was an error. Contact the administrator";
 			respuesta.setMensaje(mensaje);
 			respuesta.setPeticionExitosa(false);
 		}

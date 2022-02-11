@@ -16,6 +16,8 @@ export class LoginComponent implements OnInit {
 
   @Output() login: EventEmitter<User> = new EventEmitter();
 
+  @Output() registerOn: EventEmitter<User> = new EventEmitter();
+
   form: FormGroup;
 
   constructor( private userService: UserService,
@@ -25,6 +27,7 @@ export class LoginComponent implements OnInit {
     private globalService: GlobalService) { }
 
   ngOnInit(): void {
+    console.log(this.globalService);
     this.initForm();
   }
 
@@ -54,6 +57,7 @@ export class LoginComponent implements OnInit {
             //const token: string =  respuesta.datos.jwt;
             this.globalService.user = respuesta.datos;
 
+            this.login.emit(respuesta.datos);
 
             //console.log(token);
             this.router.navigate(['/listar']);
@@ -68,6 +72,14 @@ export class LoginComponent implements OnInit {
           timeOut:4000, positionClass: 'toast-top-center',
         });
       }
+    }
+
+    register(){
+      this.globalService.user.userName = "";
+      this.globalService.user.jwt = "";
+      this.registerOn.emit(this.globalService.user);
+      this.router.navigate(['/user/create']);
+
     }
 
 

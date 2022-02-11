@@ -16,7 +16,7 @@ public class ClienteServiceImpl implements ClienteService{
 	
 	@Autowired
 	private ClienteRepository userDao;
-
+	
 	@Override
 	public List<ClienteEntity> findAll()  throws Exception{
 		// TODO Auto-generated method stub

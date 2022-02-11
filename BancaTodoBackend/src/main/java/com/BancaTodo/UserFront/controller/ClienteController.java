@@ -33,6 +33,8 @@ public class ClienteController {
 
 	@Autowired
 	private ProductoService productoService;
+	
+
 
 	// Retornar lista de clientes
 	//@CrossOrigin(origins = "*")
@@ -45,17 +47,17 @@ public class ClienteController {
 		
 		try {
 			datos = clienteService.findAll();
-			mensaje = "0 - Se encontró " + datos.size() + " clientes";
+			mensaje = "0 - Found " + datos.size() + " customers";
 			
 			if (datos.isEmpty()) {
-				mensaje = "1 - No se encontró clientes registrados";
+				mensaje = "1 - No registered customers found";
 			}
 			respuesta.setDatos(datos);
 			respuesta.setMensaje(mensaje);
 			respuesta.setPeticionExitosa(true);	
 			estadoHttp = HttpStatus.OK;
 		} catch (Exception e) {
-			mensaje = "Ha fallado el sistema. Contacte al administrador";			
+			mensaje = "There was an error. Contact the administrator";			
 			respuesta.setMensaje(mensaje);
 			respuesta.setPeticionExitosa(false);
 			estadoHttp = HttpStatus.INTERNAL_SERVER_ERROR;
@@ -78,10 +80,10 @@ public class ClienteController {
 	
 	try {	
 		datos = clienteService.getById(id);
-		mensaje = "0 - Se encontró el cliente seleccionado";
+		mensaje = "0 - Customer found";
 		
 		if (datos == null) {
-			mensaje = "1 - Cliente no encontrado";					
+			mensaje = "1 - Customer not found";					
 		}
 		
 		respuesta.setDatos(datos);
@@ -91,7 +93,7 @@ public class ClienteController {
 		estadoHttp = HttpStatus.OK;
 		
 	}catch (Exception e){
-		mensaje = "Ha fallado el sistema. Contacte al administrador";			
+		mensaje = "There was an error. Contact the administrator";			
 		respuesta.setMensaje(mensaje);
 		respuesta.setPeticionExitosa(false);
 		estadoHttp = HttpStatus.INTERNAL_SERVER_ERROR;
@@ -111,7 +113,7 @@ public class ClienteController {
 		try {			
 			cliente.setFechaCreacion(LocalDate.now());
 			datos = clienteService.add(cliente);
-			mensaje = "0 - Cliente creado exitoxamente";
+			mensaje = "0 - Customer successfully created";
 			
 			respuesta.setDatos(datos);
 			respuesta.setMensaje(mensaje);
@@ -121,21 +123,15 @@ public class ClienteController {
 		} catch (Exception e) {
 			
 			estadoHttp = HttpStatus.INTERNAL_SERVER_ERROR;	
-			mensaje = "Hubo un fallo. Contacte al administrador";
+			mensaje = "There was an error. Contact the administrator";
 			respuesta.setMensaje(mensaje);
 			respuesta.setPeticionExitosa(false);
 			
 		}
 		
 		return new ResponseEntity<>(respuesta, estadoHttp);
-	}
+	}	
 	
-	/*public ResponseEntity<?> create(@RequestBody ClienteEntity cliente) {
-		cliente.setFechaCreacion(LocalDate.now());		
-		clienteService.add(cliente);
-		return new ResponseEntity<Object>(new Mensaje("Cliente creado"), HttpStatus.OK);
-	}*/
-
 	// Actualiza un cliente por id
 	@PutMapping("/{id}/update")
 	public ResponseEntity<GeneralResponse <Long>> update(@PathVariable("id") long id, @RequestBody ClienteEntity cliente) {
@@ -147,7 +143,7 @@ public class ClienteController {
 			cliente.setId(id);						
 			clienteService.add(cliente);
 						
-			mensaje = "0 - Cliente Actualizado";
+			mensaje = "0 - Updated customer";
 			estadoHttp = HttpStatus.OK;
 			respuesta.setDatos(id);
 			respuesta.setMensaje(mensaje);
@@ -155,7 +151,7 @@ public class ClienteController {
 			
 		} catch (Exception e) {
 			estadoHttp = HttpStatus.INTERNAL_SERVER_ERROR;	
-			mensaje = "Hubo un fallo. Contacte al administrador";
+			mensaje = "There was an error. Contact the administrator";
 			respuesta.setMensaje(mensaje);
 			respuesta.setPeticionExitosa(false);
 		}
@@ -173,11 +169,11 @@ public class ClienteController {
 			boolean estadoBandera = existeProductosActivos(id);
 			if (!estadoBandera) {				
 				clienteService.delete(id);
-				mensaje = "0 - Cliente eliminado exitosamente";	
+				mensaje = "0 - Customer removed successfully";	
 				estadoHttp = HttpStatus.OK;
 				
 			}else {
-				mensaje ="1 - Cliente no pudo ser eliminado, todos los productos deben estar cancelados";
+				mensaje ="1 - Customer could not be deleted, all accounts must be cancelled.";
 				estadoHttp = HttpStatus.OK;
 			}
 			respuesta.setDatos(id);
@@ -187,7 +183,7 @@ public class ClienteController {
 			
 			} catch (Exception e) {
 				estadoHttp = HttpStatus.INTERNAL_SERVER_ERROR;	
-				mensaje = "Hubo un fallo. Contacte al administrador";
+				mensaje = "There was an error. Contact the administrator";
 				respuesta.setMensaje(mensaje);
 				respuesta.setPeticionExitosa(false);
 				
@@ -204,8 +200,8 @@ public class ClienteController {
 			productoCliente = productoService.findByclienteId(id);
 			estadoHttp = HttpStatus.OK;			
 			for (int i = 0; i < productoCliente.size(); i++) {
-				if (productoCliente.get(i).getEstado().equals("activo")
-						|| productoCliente.get(i).getEstado().equals("inactivo")) {
+				if (productoCliente.get(i).getEstado().equals("enabled")
+						|| productoCliente.get(i).getEstado().equals("desabled")) {
 					estadoBandera = true;
 					break;
 				}
@@ -216,47 +212,6 @@ public class ClienteController {
 				
 		return estadoBandera;
 	}
-	
-	/*public ResponseEntity<?> delete(@PathVariable("id") long id)  {
-		List<ProductoEntity> productoCliente=null;
-		try {
-			productoCliente = productoService.findByclienteId(id);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		boolean estadoBandera = existeProductosActivos(productoCliente);				
-		ResponseEntity<?> respuesta =  deleteCliente(id, estadoBandera);		
-		return respuesta;
-	}
-	
-	public boolean existeProductosActivos(List<ProductoEntity> productoCliente) {
-		boolean estadoBandera = false;
-		for (int i = 0; i < productoCliente.size(); i++) {
-			if (productoCliente.get(i).getEstado().equals("activo")
-					|| productoCliente.get(i).getEstado().equals("inactivo")) {
-				estadoBandera = true;
-				break;
-			}
-		}
-		return estadoBandera;
-	}
-	
-	public ResponseEntity<?> deleteCliente(long id, boolean estadoBandera) {
-		if (!estadoBandera) {
-			clienteService.delete(id);
-			return new ResponseEntity<Object>(new Mensaje("Cliente eliminado"), HttpStatus.OK);
-		} else {
-			return new ResponseEntity(
-					"Cliente No puede ser eliminado, ya que hacen falta productos por cancelar",
-					HttpStatus.CONFLICT);
-		}
-
-	}*/
-	
-	
-
-	
 	
 
 }

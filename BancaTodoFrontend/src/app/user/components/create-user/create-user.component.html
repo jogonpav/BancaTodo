@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-md-4 mx-auto">
       <div class="card mt-2">
-        <div class="card-header text-center">REGISTRO DE CLIENTE</div>
+        <div class="card-header text-center">USER CREATION</div>
         <div class="card-body">
           <form (ngSubmit)="onCreate()" novalidate #f="ngForm">
             <div class="mb-3">
@@ -32,18 +32,6 @@
               />
             </div>
             <div class="mb-3">
-              <label for="lastname" class="form-label">Last Name</label>
-              <input
-                type="text"
-                class="form-control"
-                id="lastname"
-                name="lastname"
-                aria-describedby="emailHelp"
-                [(ngModel)]="lastName"
-                required
-              />
-            </div>
-            <div class="mb-3">
               <label for="firstname" class="form-label">First Name</label>
               <input
                 type="text"
@@ -55,8 +43,24 @@
                 required
               />
             </div>
-            <button class="btn btn-primary" [disabled]="!f.valid">Crear</button>
+            <div class="mb-3">
+              <label for="lastname" class="form-label">Last Name</label>
+              <input
+                type="text"
+                class="form-control"
+                id="lastname"
+                name="lastname"
+                aria-describedby="emailHelp"
+                [(ngModel)]="lastName"
+                required
+              />
+            </div>
+
+            <button class="btn btn-primary" [disabled]="!f.valid">Add</button>
           </form>
+          <button class="btn btn-outline-primary mt-2 w-100" routerLink="/login" >
+            <i class="fas fa-arrow-circle-left"></i> Return
+          </button>
         </div>
       </div>
     </div>

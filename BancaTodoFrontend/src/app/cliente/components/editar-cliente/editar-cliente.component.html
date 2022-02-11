@@ -2,13 +2,13 @@
   <div class="row">
     <div class="col-md-4 mx-auto">
       <div class="card mt-2">
-        <div class="card-header text-center">EDITAR CLIENTE</div>
+        <div class="card-header text-center">EDIT CUSTOMER</div>
 
         <div class="card-body">
           <form (ngSubmit)="onUpdate()" novalidate #f="ngForm">
             <div class="mb-3">
               <label for="tipoIdentificacion" class="form-label"
-                >Tipo Identificación</label
+                >ID TYPE</label
               >
               <select
                 name="selectDepartment"
@@ -28,7 +28,7 @@
 
             <div class="mb-3">
               <label for="numIdentificacion" class="form-label"
-                >Número Identificación</label
+                >ID NUMBER</label
               >
               <input
                 type="number"
@@ -41,7 +41,7 @@
               />
             </div>
             <div class="mb-3">
-              <label for="nombres" class="form-label">Nombres</label>
+              <label for="nombres" class="form-label">First Name</label>
               <input
                 type="text"
                 class="form-control"
@@ -53,7 +53,7 @@
               />
             </div>
             <div class="mb-3">
-              <label for="apellidos" class="form-label">Apellidos</label>
+              <label for="apellidos" class="form-label">Last Name</label>
               <input
                 type="text"
                 class="form-control"
@@ -65,7 +65,7 @@
               />
             </div>
             <div class="mb-3">
-              <label for="correo" class="form-label">Correo</label>
+              <label for="correo" class="form-label">Email</label>
               <input
                 type="email"
                 class="form-control"
@@ -77,7 +77,7 @@
               />
             </div>
             <div class="mb-3">
-              <label for="fecha" class="form-label">Fecha Nacimiento</label>
+              <label for="fecha" class="form-label">Birth date</label>
               <input
                 type="date"
                 class="form-control"
@@ -90,10 +90,10 @@
               />
             </div>
             <button class="btn btn-outline-success" [disabled]="!f.valid">
-              actualizar
+              Update
             </button>
-            <button class="btn btn-outline-primary ms-3" routerLink="/">
-              Volver
+            <button class="btn btn-outline-primary ms-3" routerLink="/listar">
+              Return
             </button>
           </form>
         </div>

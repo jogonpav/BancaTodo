@@ -2,12 +2,12 @@
   <div class="row">
     <div class="col-md-4 mx-auto">
       <div class="card mt-2">
-        <div class="card-header text-center">REGISTRO DE CLIENTE</div>
+        <div class="card-header text-center">CUSTOMER REGISTRATION</div>
         <div class="card-body">
           <form (ngSubmit)="onCreate()" novalidate #f="ngForm">
             <div class="mb-3">
               <label for="tipoIdentificacion" class="form-label"
-              >Tipo Identificación</label
+              >ID type</label
             >
               <select
                 for="tipoIdentificacion"
@@ -16,14 +16,15 @@
                 class="form-select mb-3"
                 aria-describedby="emailHelp"
 
-              > <option value="Cédula Ciudadanía">Cédula Ciudadanía</option>
-                <option value="Pasaporte">Pasaporte</option>
-                <option value="Cédula Extranjera">Cédula Extranjera</option>
+              > <option value="DNI">DNI</option>
+                <option value="Passport">Passport</option>
+                <option value="United States Passport card">United States Passport card</option>
+                <option value="US Social Security Number">US Social Security Number</option>
               </select>
             </div>
             <div class="mb-3">
               <label for="numIdentificacion" class="form-label"
-                >Número Identificación</label
+                >Number ID</label
               >
               <input
                 type="number"
@@ -36,7 +37,7 @@
               />
             </div>
             <div class="mb-3">
-              <label for="nombres" class="form-label">Nombres</label>
+              <label for="nombres" class="form-label">First name</label>
               <input
                 type="text"
                 class="form-control"
@@ -48,7 +49,7 @@
               />
             </div>
             <div class="mb-3">
-              <label for="apellidos" class="form-label">Apellidos</label>
+              <label for="apellidos" class="form-label">Last name</label>
               <input
                 type="text"
                 class="form-control"
@@ -60,7 +61,7 @@
               />
             </div>
             <div class="mb-3">
-              <label for="correo" class="form-label">Correo</label>
+              <label for="correo" class="form-label">Email</label>
               <input
                 type="email"
                 class="form-control"
@@ -72,7 +73,7 @@
               />
             </div>
             <div class="mb-3">
-              <label for="fecha" class="form-label">Fecha Nacimiento</label>
+              <label for="fecha" class="form-label">Birth date</label>
               <input
                 type="date"
                 class="form-control"
@@ -84,7 +85,7 @@
                 required
               />
             </div>
-            <button class="btn btn-primary" [disabled]="!f.valid">Crear</button>
+            <button class="btn btn-primary" [disabled]="!f.valid">Add</button>
           </form>
         </div>
       </div>

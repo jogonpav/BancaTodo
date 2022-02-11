@@ -1,11 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Cliente } from 'src/app/cliente/models/cliente';
 import { GeneralResponse } from 'src/app/shared/models/general-response';
 
 import { environment } from 'src/environments/environment';
 import { User } from '../models/user';
+import { UserDto } from '../models/user-dto';
 
 
 @Injectable({
@@ -29,6 +29,10 @@ export class UserService {
 
   public update(user: User): Observable<GeneralResponse<User>> {
     return this.httpClient.put<GeneralResponse<User>>(this.URL, user);
+  }
+
+  public resetPassword(userDto: UserDto): Observable<GeneralResponse<User>> {
+    return this.httpClient.put<GeneralResponse<User>>(this.URL+'/resetpassword', userDto);
   }
 
   login(user: User): Observable<GeneralResponse<User>> {

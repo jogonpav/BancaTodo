@@ -43,10 +43,10 @@ public class MovimientoController {
 		
 		try {
 			datos = movimientoService.findBycuentaId(cuentaId);
-			mensaje = "0 - se encontró " + datos.size() + " movimientos";
+			mensaje = "0 - found " + datos.size() + " movements";
 			
 			if (datos.isEmpty()) {
-				mensaje = "1 - No se encontró movimientos registrados";
+				mensaje = "1 - No registered movements were found.";
 			}
 			respuesta.setDatos(datos);			
 			respuesta.setMensaje(mensaje);
@@ -55,7 +55,7 @@ public class MovimientoController {
 			estadoHttp = HttpStatus.OK;
 			
 		} catch (Exception e) {
-			mensaje = "Ha fallado el sistema. Contacte al administrador";			
+			mensaje = "There was an error. Contact the administrator";			
 			respuesta.setMensaje(mensaje);
 			respuesta.setPeticionExitosa(false);
 			estadoHttp = HttpStatus.INTERNAL_SERVER_ERROR;
@@ -78,12 +78,12 @@ public class MovimientoController {
 			producto = productoService.findById(cuentaId);
 			datos = 0;
 			
-			if (!producto.get().getEstado().equals("cancelado")) {
+			if (!producto.get().getEstado().equals("cacelled")) {
 				movimiento.setSaldoInicial(producto.get().getSaldo());
 				producto.get().setSaldo(producto.get().getSaldo() + movimiento.getValor());//consignación
 				movimiento.setSaldoFinal(producto.get().getSaldo());
-				movimiento.setTipoMovimiento("consiginacion");
-				movimiento.setTipoDebito("crédito");
+				movimiento.setTipoMovimiento("deposit");
+				movimiento.setTipoDebito("credit");
 				movimiento.setFecha(LocalDate.now());
 				movimiento.setCuentaId(cuentaId);
 				movimiento.setCuentaDestino((long) 0);
@@ -91,14 +91,14 @@ public class MovimientoController {
 				movimientoService.add(movimiento);
 				
 				
-				mensaje = "0 - Consignación creada exitosamente";		
+				mensaje = "0 - Deposit created successfully";		
 				respuesta.setDatos(datos);
 				respuesta.setMensaje(mensaje);
 				respuesta.setPeticionExitosa(true);
 				estadoHttp = HttpStatus.CREATED;
 			}else {
 				
-				mensaje = "1 - Consignación no realizada, cuenta N°= " +producto.get().getNumeroCuenta() +" se encuentra cancelada";		
+				mensaje = "1 - Deposit not made, account N°= " +producto.get().getNumeroCuenta() +" is canceled";		
 				respuesta.setDatos(datos);
 				respuesta.setMensaje(mensaje);
 				respuesta.setPeticionExitosa(true);		
@@ -107,7 +107,7 @@ public class MovimientoController {
 			
 		} catch (Exception e) {
 			estadoHttp = HttpStatus.INTERNAL_SERVER_ERROR;
-			mensaje = "Hubo un fallo. Contacte al administrador";
+			mensaje = "There was an error. Contact the administrator";
 			respuesta.setMensaje(mensaje);
 			respuesta.setPeticionExitosa(false);
 		}
@@ -133,12 +133,9 @@ public class MovimientoController {
 			boolean saldoValidado = validarSaldo(productoOrigen, valorTransaccion);
 			
 			mensajeRespuestaOrigen = valEstadosProductoOri(productoOrigen, saldoValidado); //valida estado producto/cuenta de origen
-			System.out.println("saldo validado:" + saldoValidado);
-			System.out.println("Mensaje validacion estado:" + mensajeRespuestaOrigen.getMensaje());
-			System.out.println("Fue exitoso:" + mensajeRespuestaOrigen.isPeticionExitosa());
 			
 			if (saldoValidado && mensajeRespuestaOrigen.isPeticionExitosa()){
-				movimientoOrigen.setTipoMovimiento("retiro");
+				movimientoOrigen.setTipoMovimiento("withdrawal");
 				movimientoOrigen.setCuentaDestino(0);
 				
 				movimientoOrigen = realizarMovimientoDebito(productoOrigen, movimientoOrigen);
@@ -151,17 +148,17 @@ public class MovimientoController {
 				productoService.add(productoOrigen.get());	
 				movimientoService.add(movimientoGMF);
 				
-				mensaje = mensajeRespuestaOrigen.getMensaje() + " (Retiro)";
+				mensaje = mensajeRespuestaOrigen.getMensaje() + " (Withdrawal)";
 				estadoHttp = HttpStatus.CREATED;				
 			}else if(!saldoValidado) {
-				mensaje = mensajeRespuestaOrigen.getMensaje() + " (Retiro)";
+				mensaje = mensajeRespuestaOrigen.getMensaje() + " (Withdrawal)";
 				estadoHttp = HttpStatus.OK;				
 			}
 			else if(!mensajeRespuestaOrigen.isPeticionExitosa()) {
-				mensaje = mensajeRespuestaOrigen.getMensaje() + " (Retiro)";
+				mensaje = mensajeRespuestaOrigen.getMensaje() + " (Withdrawal)";
 				estadoHttp = HttpStatus.OK;				
 			}else {
-				mensaje = "1 - Error método no identificado, contacte soporte" + " (Retiro)";
+				mensaje = "1 - Unidentified method error, contact support" + " (Withdrawal)";
 				estadoHttp = HttpStatus.OK;					
 			}
 			datos = 0;
@@ -187,10 +184,7 @@ public class MovimientoController {
 		String mensaje = null;	
 		HttpStatus estadoHttp = null;		
 		
-		try {	
-			
-			System.out.println("idCuenta: " + idCuenta);
-			System.out.println("idCuentaDestino: " + idCuentaDestino);
+		try {
 			productoOrigen = productoService.findById(idCuenta);
 			productoDestino = productoService.findById(idCuentaDestino);
 			
@@ -203,21 +197,21 @@ public class MovimientoController {
 			
 			if (saldoValidado && mensajeRespuestaOrigen.isPeticionExitosa() && mensajeRespuestaDestino.isPeticionExitosa()) {
 				movimientoOrigen.setCuentaDestino(idCuentaDestino);
-				movimientoOrigen.setTipoMovimiento("transferencia");
+				movimientoOrigen.setTipoMovimiento("transfer");
 				realizarTransferenciaDebito(productoOrigen, movimientoOrigen);
 				movimientoDestino.setCuentaDestino(productoOrigen.get().getId());			
 				realizarTransferenciaCredito(productoDestino, movimientoDestino,valorTransaccion);
-				mensaje = mensajeRespuestaOrigen.getMensaje() + " (Transferencia)";
+				mensaje = mensajeRespuestaOrigen.getMensaje() + " (Transfer)";
 				estadoHttp = HttpStatus.CREATED;	
 			}else if (!mensajeRespuestaOrigen.isPeticionExitosa()){
-				mensaje = mensajeRespuestaOrigen.getMensaje() + "(Transferencia Error)";
+				mensaje = mensajeRespuestaOrigen.getMensaje() + "(Error Transfer)";
 				estadoHttp = HttpStatus.OK;				
 			}else if (!mensajeRespuestaDestino.isPeticionExitosa()){
-				mensaje = mensajeRespuestaDestino.getMensaje() + "(Transferencia Error)";
+				mensaje = mensajeRespuestaDestino.getMensaje() + "(Error Transfer)";
 				estadoHttp = HttpStatus.OK;				
 			}
 			else {
-				mensaje = "1 - Error método no identificado, contacte soporte" + "(Transferencia Error)" ;
+				mensaje = "1 - There was an error. Contact the administrator" + "(Error Transfer)" ;
 				estadoHttp = HttpStatus.OK;
 			}
 			
@@ -227,7 +221,7 @@ public class MovimientoController {
 			
 		} catch (Exception e) {
 			estadoHttp = HttpStatus.INTERNAL_SERVER_ERROR;
-			mensaje = "Hubo un fallo. Contacte al administrador";
+			mensaje = "There was an error. Contact the administrator";
 			respuesta.setMensaje(mensaje);
 			respuesta.setPeticionExitosa(false);
 		}
@@ -239,40 +233,40 @@ public class MovimientoController {
 		
 		GeneralResponse<Integer> mensajeRespuesta = new GeneralResponse<>();
 		
-		if (productoOrigen.get().getEstado().toLowerCase().equals("inactivo")) {
-			mensajeRespuesta.setMensaje("1 - El producto origen está inactivo");
+		if (productoOrigen.get().getEstado().toLowerCase().equals("desabled")) {
+			mensajeRespuesta.setMensaje("1 - The account is desabled");
 			mensajeRespuesta.setPeticionExitosa(false);
 			return mensajeRespuesta;			
-		} else if (productoOrigen.get().getEstado().toLowerCase().equals("cancelado")) {
-			mensajeRespuesta.setMensaje("1- El producto de origen está cancelado");
+		} else if (productoOrigen.get().getEstado().toLowerCase().equals("cancelled")) {
+			mensajeRespuesta.setMensaje("1- the account is canceled");
 			mensajeRespuesta.setPeticionExitosa(false);
 			return mensajeRespuesta;
-		} else if (productoOrigen.get().getTipoCuenta().toLowerCase().equals("ahorro") && !saldoValidado) {
-			mensajeRespuesta.setMensaje("2 - fondos insuficiente");
+		} else if (productoOrigen.get().getTipoCuenta().toLowerCase().equals("savings") && !saldoValidado) {
+			mensajeRespuesta.setMensaje("2 - Not enought funds, the balance with the GMF must be greater than or equal to US$0.0");
 			mensajeRespuesta.setPeticionExitosa(false);
 			return mensajeRespuesta;
-		} else if (productoOrigen.get().getTipoCuenta().toLowerCase().equals("corriente") && !saldoValidado) {
-			mensajeRespuesta.setMensaje("2 - Fondos insuficientes - La cuenta corriente no puede sobregirarse a más de $2000000");
+		} else if (productoOrigen.get().getTipoCuenta().toLowerCase().equals("current") && !saldoValidado) {
+			mensajeRespuesta.setMensaje("2 - Not enought funds - Current account cannot be overdrawn by more than US$5,000");
 			mensajeRespuesta.setPeticionExitosa(false);
 			return mensajeRespuesta;
 		} else {
-			mensajeRespuesta.setMensaje("0 - Operación realizada Exitosamente");
+			mensajeRespuesta.setMensaje("0 - Operation successfully");
 			mensajeRespuesta.setPeticionExitosa(true);		
 			return mensajeRespuesta;
 			}		
 	}
 	private GeneralResponse<?> valEstadosProductoDes(Optional<ProductoEntity> productoDestino) {
 		GeneralResponse mensajeRespuesta = new GeneralResponse<>();
-		if (productoDestino.get().getEstado().toLowerCase().equals("cancelado")) {
-			mensajeRespuesta.setMensaje("1- El producto de destino está cancelado");
+		if (productoDestino.get().getEstado().toLowerCase().equals("cancelled")) {
+			mensajeRespuesta.setMensaje("1- The recipient account is cancelled.");
 			mensajeRespuesta.setPeticionExitosa(false);
 			return mensajeRespuesta;
-		}else if(productoDestino.get().getEstado().toLowerCase().equals("inactivo")) {
-			mensajeRespuesta.setMensaje("1- El producto de destino está inactivo");
+		}else if(productoDestino.get().getEstado().toLowerCase().equals("disabled")) {
+			mensajeRespuesta.setMensaje("1- The recipient account is disabled");
 			mensajeRespuesta.setPeticionExitosa(false);
 			return mensajeRespuesta;
 		}else {
-			mensajeRespuesta.setMensaje("0 - Operación realizada Exitosamente");
+			mensajeRespuesta.setMensaje("0 - Operation successfully");
 			mensajeRespuesta.setPeticionExitosa(true);		
 			return mensajeRespuesta;
 		}		
@@ -285,15 +279,16 @@ public class MovimientoController {
 		double saldoGMF = productoOrigen.get().getSaldo() - valorTransaccion
 				- valorTransaccion * 0.004;
 
-		if (productoOrigen.get().getTipoCuenta().toLowerCase().equals("ahorro") && productoOrigen.get().getEstado()
-				.toLowerCase().equals("activo")
+		if (productoOrigen.get().getTipoCuenta().toLowerCase().equals("savings") && productoOrigen.get().getEstado()
+				.toLowerCase().equals("enabled")
 				&& saldoGMF >= 0) {
 			saldoValidado = true;
 		}
-		if (productoOrigen.get().getTipoCuenta().toLowerCase().equals("corriente")
-				&& productoOrigen.get().getEstado().toLowerCase().equals("activo") && saldoGMF >= (-2000000)) {
+		if (productoOrigen.get().getTipoCuenta().toLowerCase().equals("current")
+				&& productoOrigen.get().getEstado().toLowerCase().equals("enabled") && saldoGMF >= -5000) {
 			saldoValidado = true;
 		}	
+		System.out.println(saldoGMF);
 		return saldoValidado;
 	}
 
@@ -301,7 +296,7 @@ public class MovimientoController {
 		HttpStatus estadoHttp = null;
 		try {
 			// registro de operación sin GMF
-			movimientoOrigen.setTipoMovimiento("transferencia");
+			movimientoOrigen.setTipoMovimiento("transfer");
 			movimientoOrigen = realizarMovimientoDebito(productoOrigen, movimientoOrigen);	
 			productoOrigen.get().setSaldo(movimientoOrigen.getSaldoFinal());
 			productoService.add(productoOrigen.get());
@@ -327,7 +322,7 @@ public class MovimientoController {
 		double saldo = productoOrigen.get().getSaldo() - movimientoOrigen.getValor();	
 		movimientoOrigen.setSaldoFinal(saldo);
 		movimientoOrigen.setFecha(LocalDate.now());
-		movimientoOrigen.setTipoDebito("debito");
+		movimientoOrigen.setTipoDebito("debit");
 		movimientoOrigen.setCuentaId(productoOrigen.get().getId());
 		return movimientoOrigen;
 	}
@@ -341,7 +336,7 @@ public class MovimientoController {
 		movimientoGMF.setValor(valorTransaccion * 0.004);
 		movimientoGMF.setFecha(LocalDate.now());
 		movimientoGMF.setTipoMovimiento("GMF");
-		movimientoGMF.setTipoDebito("debito");
+		movimientoGMF.setTipoDebito("debit");
 		movimientoGMF.setDescripcion("GMF");
 		movimientoGMF.setCuentaId(productoOrigen.get().getId());
 		movimientoGMF.setCuentaDestino(0);
@@ -354,9 +349,9 @@ public class MovimientoController {
 			// cuenta destino
 			movimientoDestino.setSaldoInicial(productoDestino.get().getSaldo());
 			productoDestino.get().setSaldo(productoDestino.get().getSaldo() + valorTransaccion);
-			movimientoDestino.setTipoMovimiento("transferencia");
-			movimientoDestino.setTipoDebito("credito");
-			movimientoDestino.setDescripcion("Transferencia desde cuenta N " + productoDestino.get().getNumeroCuenta());
+			movimientoDestino.setTipoMovimiento("transfer");
+			movimientoDestino.setTipoDebito("credit");
+			movimientoDestino.setDescripcion("Transfer from account # " + productoDestino.get().getNumeroCuenta());
 			movimientoDestino.setCuentaId(productoDestino.get().getId());		
 			movimientoDestino.setFecha(LocalDate.now());
 			movimientoDestino.setValor(valorTransaccion);
@@ -380,8 +375,8 @@ public class MovimientoController {
 			// registro de operación sin GMF
 			movimientoOrigen.setSaldoInicial(productoOrigen.get().getSaldo());
 			movimientoOrigen.setSaldoFinal(saldo);
-			movimientoOrigen.setTipoMovimiento("retiro");
-			movimientoOrigen.setTipoDebito("debito");
+			movimientoOrigen.setTipoMovimiento("withdrawal");
+			movimientoOrigen.setTipoDebito("debit");
 			movimientoOrigen.setCuentaId(productoOrigen.get().getId());
 			movimientoOrigen.setCuentaDestino(0);
 			movimientoOrigen.setFecha(LocalDate.now());
@@ -394,7 +389,7 @@ public class MovimientoController {
 			movimientoGMF.setSaldoFinal(saldoGMF);
 			movimientoGMF.setValor(movimientoOrigen.getValor() * 0.004);
 			movimientoGMF.setTipoMovimiento("GMF");
-			movimientoGMF.setTipoDebito("debito");
+			movimientoGMF.setTipoDebito("debit");
 			movimientoGMF.setDescripcion("GMF");
 			movimientoGMF.setCuentaId(productoOrigen.get().getId());
 			movimientoGMF.setCuentaDestino(0);

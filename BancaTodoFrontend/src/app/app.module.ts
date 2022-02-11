@@ -15,7 +15,7 @@ import{FormsModule, ReactiveFormsModule} from '@angular/forms';
 //externals
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
-import { HeaderComponent } from './core/header/header.component';
+import { HomeComponent } from './core/header/home.component';
 import { ListAccountsComponent } from './accounts/components/list-accounts/list-accounts.component';
 import { ListTransactionsComponent } from './accounts/transactions/components/list-transactions/list-transactions.component';
 import { ConsignarComponentsComponent } from './accounts/transactions/components/consignar-components/consignar-components.component';
@@ -42,7 +42,7 @@ import { ResetPasswordComponent } from './user/components/reset-password/reset-p
     DetalleClienteComponent,
     NuevoClienteComponent,
     EditarClienteComponent,
-    HeaderComponent,
+    HomeComponent,
     ListAccountsComponent,
     ListTransactionsComponent,
     ConsignarComponentsComponent,

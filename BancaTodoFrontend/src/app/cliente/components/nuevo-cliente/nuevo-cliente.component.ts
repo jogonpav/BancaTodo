@@ -50,13 +50,13 @@ export class NuevoClienteComponent implements OnInit {
         }
       }
 
-        this.router.navigate(['/']);
+        this.router.navigate(['/listar']);
 
       }, err =>{
         this.toastr.error(err.error.mensaje,'Fail',{
           timeOut:4000, positionClass: 'toast-top-center',
         });
-        this.router.navigate(['/']);
+        this.router.navigate(['/listar']);
 
       }
     )

@@ -1,17 +1,18 @@
 <div class="container">
+  <h2 class="text-center mt-5">accounts list</h2>
   <table class="table">
-    <thead>
+    <thead class="text-center">
       <tr>
-        <th scope="col">Tipo Cuenta</th>
-        <th scope="col">Número Cuenta</th>
-        <th scope="col">Estado</th>
-        <th scope="col">Fecha Apertura</th>
-        <th scope="col">Saldo</th>
-        <th scope="col">Movimiento</th>
-        <th scope="col">consignar</th>
-        <th scope="col">retirar</th>
-        <th scope="col">transferir</th>
-        <th scope="col">Activar</th>
+        <th scope="col">Account type</th>
+        <th scope="col">Account Number</th>
+        <th scope="col">Status</th>
+        <th scope="col">Opening date</th>
+        <th scope="col">Balance</th>
+        <th scope="col">Movements</th>
+        <th scope="col">Deposit</th>
+        <th scope="col">Withdrawal</th>
+        <th scope="col">Transfer</th>
+        <th scope="col">Status</th>
       </tr>
     </thead>
     <tbody>
@@ -20,7 +21,7 @@
         <td>{{ account.numeroCuenta }}</td>
         <td>{{ account.estado }}</td>
         <td>{{ account.fechaApertura }}</td>
-        <td>${{ account.saldo }}</td>
+        <td>US${{ account.saldo }}</td>
         <td>
           <button
             class="btn btn-outline-success"
@@ -34,12 +35,12 @@
                 account.id
               }}/movimiento"
             ></i>
-            Ver
+            Show
           </button>
         </td>
         <td>
           <div
-            *ngIf="account.estado == 'cancelado'; else elseBlokConsignar"
+            *ngIf="account.estado == 'cancelled'; else elseBlokConsignar"
           ></div>
           <ng-template #elseBlokConsignar>
             <button
@@ -51,30 +52,28 @@
                 (click)="consignar(clienteId, account)"
               ></i>
 
-              consignar
+              Deposit
             </button>
           </ng-template>
         </td>
         <td>
           <div
             *ngIf="
-              account.estado == 'cancelado' || account.estado == 'inactivo';
+              account.estado == 'cancelled' || account.estado == 'disabled';
               else elseBlokRetirar
-            "
-          ></div>
+            "></div>
           <ng-template #elseBlokRetirar>
             <button
               class="btn btn-outline-warning"
               (click)="retirar(clienteId, account)"
-            >
-              <i class="fas fa-hand-holding-usd"></i> Retirar
+            ><i class="fas fa-hand-holding-usd"></i> Withdrawal
             </button>
           </ng-template>
         </td>
         <td>
           <div
             *ngIf="
-              account.estado == 'cancelado' || account.estado == 'inactivo';
+              account.estado == 'cancelled' || account.estado == 'disabled';
               else elseBlokTransferir
             "
           ></div>
@@ -83,38 +82,45 @@
               class="btn btn-outline-secondary"
               (click)="transferir(clienteId, account)"
             >
-              <i class="fas fa-money-check-alt"></i> Transferir
+              <i class="fas fa-money-check-alt"></i> Transfer
             </button>
           </ng-template>
         </td>
         <td>
-          <div *ngIf="account.estado == 'activo'; else elseBlok">
+          <div *ngIf="account.estado == 'enabled'; else elseBlok">
             <button
               type="button"
               class="btn btn-danger"
               (click)="desactivar(account.id, account)"
             >
-              <i class="fas fa-toggle-on"></i> Desactivar
+              <i class="fas fa-toggle-on"></i> Disable
             </button>
             <button
               type="button"
               class="btn btn-secondary ms-1"
               (click)="cancelar(account.id, account)"
             >
-              <i class="fas fa-power-off"></i> cancelar
+              <i class="fas fa-power-off"></i> Cancel
             </button>
           </div>
           <ng-template #elseBlok>
             <div
-              *ngIf="account.estado == 'cancelado'; else elseBlockCancelado"
+              *ngIf="account.estado == 'cancelled'; else elseBlockCancelado"
             ></div>
             <ng-template #elseBlockCancelado>
               <button
                 class="btn btn-success"
                 (click)="activar(account.id, account)"
               >
-                <i class="fas fa-toggle-off"></i> Activar
+                <i class="fas fa-toggle-off"></i> Enable
               </button>
+              <button
+              type="button"
+              class="btn btn-secondary ms-1"
+              (click)="cancelar(account.id, account)"
+            >
+              <i class="fas fa-power-off"></i> Cancel
+            </button>
             </ng-template>
           </ng-template>
         </td>

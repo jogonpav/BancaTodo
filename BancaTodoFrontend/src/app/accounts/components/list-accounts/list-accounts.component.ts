@@ -89,7 +89,6 @@ export class ListAccountsComponent implements OnInit {
         break;
       default:
         this.router.navigate(['/cliente/'+clienteId+'/cuenta/'+account.id+'/transferencia']);
-
     }
   }
 

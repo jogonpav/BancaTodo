@@ -24,8 +24,7 @@ export class CreateUserComponent implements OnInit {
 
   ngOnInit(): void {
   }
-/* this.userName, this.password, this.jwt,
-      this.lastName, this.firstName */
+
   onCreate(): void{
     const user= new User ();
 
@@ -52,13 +51,14 @@ export class CreateUserComponent implements OnInit {
         }
       }
 
-        this.router.navigate(['/']);
+        this.router.navigate(['/login']);
+       // this.router.navigate(['/listar']);
 
       }, err =>{
         this.toastr.error(err.error.mensaje,'Fail',{
           timeOut:4000, positionClass: 'toast-top-center',
         });
-        this.router.navigate(['/']);
+        this.router.navigate(['/listar']);
 
       }
     )

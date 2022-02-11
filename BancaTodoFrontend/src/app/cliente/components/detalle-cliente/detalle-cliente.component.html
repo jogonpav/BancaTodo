@@ -3,22 +3,22 @@
     <div class="col-md-3  mx-auto" >
       <div class="card mt-5" style="width: 18rem;">
         <div class="card-header text-center">
-          Información del Cliente
+          CUSTOMER INFORMATION
         </div>
         <ul class="list-group list-group-flush">
-          <li class="list-group-item"><b>Tipo Identificación: </b>{{cliente.tipoIdentificacion}}</li>
-          <li class="list-group-item"><b>Número Identificación: </b>{{cliente.numeroIdentificacion}}</li>
-          <li class="list-group-item"><b>Nombres: </b>{{cliente.nombres}}</li>
-          <li class="list-group-item"><b>Apellidos: </b>{{cliente.apellidos}}</li>
-          <li class="list-group-item"><b>Correo: </b>{{cliente.correo}}</li>
-          <li class="list-group-item"><b>Fecha Nacimiento: </b>{{cliente.fechaNacimiento}}</li>
-          <li class="list-group-item"><b>Fecha Creacion: </b>{{cliente.fechaCreacion}}</li>
+          <li class="list-group-item"><b>ID type: </b>{{cliente.tipoIdentificacion}}</li>
+          <li class="list-group-item"><b>ID number: </b>{{cliente.numeroIdentificacion}}</li>
+          <li class="list-group-item"><b>First name: </b>{{cliente.nombres}}</li>
+          <li class="list-group-item"><b>Last name: </b>{{cliente.apellidos}}</li>
+          <li class="list-group-item"><b>Email: </b>{{cliente.correo}}</li>
+          <li class="list-group-item"><b>Birth date: </b>{{cliente.fechaNacimiento}}</li>
+          <li class="list-group-item"><b>Creation date: </b>{{cliente.fechaCreacion}}</li>
         </ul>
         <div class="card-footer d-grid gap-2 ">
-          <button class="btn btn-success btn-block " routerLink="/cliente/{{cliente.id}}/cuenta/crear"><i class="far fa-credit-card"></i> Crear Cuenta</button>
+          <button class="btn btn-success btn-block " routerLink="/cliente/{{cliente.id}}/cuenta/crear"><i class="far fa-credit-card"></i> Add Account</button>
         </div>
         <div class="card-footer d-grid gap-2">
-          <button class="btn btn-outline-primary btn-block" (click)="volver()"><i class="fas fa-arrow-circle-left"></i> Volver</button>
+          <button class="btn btn-outline-primary btn-block" (click)="volver()"><i class="fas fa-arrow-circle-left"></i> Return</button>
         </div>
       </div>
 

@@ -1,19 +1,22 @@
 <div class="container">
   <div class="mt-2">
   <button class="btn btn-outline-primary" routerLink="/cliente/{{clienteId}}/detalle">
-    <i class="fas fa-eye" routerLink="/cliente/{{clienteId}}/detalle"></i> volver
+    <i class="fas fa-eye" routerLink="/cliente/{{clienteId}}/detalle"></i> return
 
   </button>
+</div>
+<div class="text-center">
+  <h2>MOVEMENTS</h2>
 </div>
   <table class="table">
     <thead>
       <tr>
-        <th scope="col">Fecha</th>
-        <th scope="col">Descripción</th>
-        <th scope="col">Saldo Inicial</th>
-        <th scope="col">Valor Transacción</th>
-        <th scope="col">Saldo Final</th>
-        <th scope="col">Movimiento Financiero</th>
+        <th scope="col">Date</th>
+        <th scope="col">Description</th>
+        <th scope="col">Initial Balance US$</th>
+        <th scope="col">Transaction Value US$</th>
+        <th scope="col">Final Balance US$</th>
+        <th scope="col">Financial Movement</th>
       </tr>
     </thead>
     <tbody>

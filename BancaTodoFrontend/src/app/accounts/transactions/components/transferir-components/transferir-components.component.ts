@@ -110,10 +110,10 @@ export class TransferirComponentsComponent implements OnInit {
             }); */
             this.accountsBetween = respuesta.datos;
           } else {
-            this.toastr.warning(respuesta.mensaje, '¡Info!', {
+           /*  this.toastr.warning(respuesta.mensaje, '¡Info!', {
               timeOut: 4000,
               positionClass: 'toast-top-center',
-            });
+            }); */
           }
         }
       },
@@ -137,10 +137,10 @@ export class TransferirComponentsComponent implements OnInit {
           }); */
           this.otherAccounts = respuesta.datos;
         } else {
-          this.toastr.warning(respuesta.mensaje, '¡Info!', {
+          /* this.toastr.warning(respuesta.mensaje, '¡Info!', {
             timeOut: 4000,
             positionClass: 'toast-top-center',
-          });
+          }); */
         }
       }
     },

@@ -9,13 +9,14 @@ import { DetalleClienteComponent } from './cliente/components/detalle-cliente/de
 import { EditarClienteComponent } from './cliente/components/editar-cliente/editar-cliente.component';
 import { ListaClienteComponent } from './cliente/components/lista-cliente/lista-cliente.component';
 import { NuevoClienteComponent } from './cliente/components/nuevo-cliente/nuevo-cliente.component';
+import { HomeComponent } from './core/header/home.component';
 import { LoginComponent } from './core/login/login.component';
 import { CreateUserComponent } from './user/components/create-user/create-user.component';
 import { EditUserComponent } from './user/components/edit-user/edit-user.component';
 import { ResetPasswordComponent } from './user/components/reset-password/reset-password.component';
 
 const routes: Routes = [
-  {path: '', component: LoginComponent},
+  {path: '', component: HomeComponent},
   {path: 'listar', component: ListaClienteComponent},
   {path: 'nuevo', component: NuevoClienteComponent},
   {path: 'editar/:id', component:EditarClienteComponent},
@@ -27,7 +28,8 @@ const routes: Routes = [
   {path: 'cliente/:clienteId/cuenta/:cuentaId/transferencia', component: TransferirComponentsComponent},
   {path: 'user/create', component: CreateUserComponent},
   {path: 'user/edit', component: EditUserComponent},
-  {path: 'user/reset-password', component: ResetPasswordComponent}
+  {path: 'user/reset-password', component: ResetPasswordComponent},
+  {path: 'login', component: LoginComponent}
 ];
 
 @NgModule({

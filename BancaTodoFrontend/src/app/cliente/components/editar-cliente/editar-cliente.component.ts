@@ -13,7 +13,7 @@ export class EditarClienteComponent implements OnInit {
 
   cliente: Cliente;
 
-  dataIdentificacion = ['Cédula Ciudadanía','Pasaporte','Cédula Extranjera']
+  dataIdentificacion = ['DNI','Passport','United States Passport card','US Social Security Number']
   valorSeleccion: string;
 
   comparacion(item1:any, item2:any) {
@@ -41,7 +41,7 @@ export class EditarClienteComponent implements OnInit {
           timeOut: 4000,
           positionClass: 'toast-top-center',
         });
-        this.router.navigate(['/']);
+        this.router.navigate(['/listar']);
       }
     );
 
@@ -67,14 +67,14 @@ export class EditarClienteComponent implements OnInit {
 
           }
         }
-        this.router.navigate(['/']);
+        this.router.navigate(['/listar']);
       },
       (err) => {
         this.toastr.error(err.error.mensaje, 'Fail', {
           timeOut: 4000,
           positionClass: 'toast-top-center',
         });
-        this.router.navigate(['/']);
+        this.router.navigate(['/listar']);
       }
     );
   }

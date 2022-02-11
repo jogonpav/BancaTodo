@@ -2,27 +2,27 @@
   <div class="row justify-content-center mt-5">
     <div class="col-4">
       <div class="card" style="width: 18rem">
-        <div class="card-header text-center">Detalle de Cuenta</div>
+        <div class="card-header text-center">Account Details</div>
         <ul class="list-group list-group-flush">
           <li class="list-group-item">
-            <b>Tipo Cuenta: </b>{{ tipoCuenta }}
+            <b>Account Type: </b>{{ tipoCuenta }}
           </li>
           <li class="list-group-item">
-            <b>Número de cuenta: </b>{{ numeroCuenta }}
+            <b>Account Number: </b>{{ numeroCuenta }}
           </li>
-          <li class="list-group-item"><b>Estado: </b>{{ estado }}</li>
-          <li class="list-group-item"><b>Saldo: </b>${{ saldo }}</li>
+          <li class="list-group-item"><b>Status: </b>{{ estado }}</li>
+          <li class="list-group-item"><b>Balance: </b>US${{ saldo }}</li>
         </ul>
       </div>
     </div>
     <div class="col-4">
       <div class="card">
-        <div class="card-header text-center">RETIRO</div>
+        <div class="card-header text-center">WITHDRAW</div>
         <div class="card-body">
         <form (ngSubmit)="retirar()" novalidate #f="ngForm">
           <div class="mb-3">
             <label for="valor" class="form-label"
-              >Ingrese valor a retiro</label
+              >Enter value to withdraw US$</label
             >
             <input
               type="number"
@@ -35,7 +35,7 @@
             />
           </div>
           <div class="mb-3">
-            <label for="descripcion" class="form-label">Descripción</label>
+            <label for="descripcion" class="form-label">Description</label>
             <input
               type="text"
               class="form-control"
@@ -47,11 +47,11 @@
             />
           </div>
           <button class="btn btn-primary w-100" [disabled]="!f.valid">
-            Retirar
+            withdraw
           </button>
         </form>
         <button class="btn btn-outline-primary mt-2 w-100" (click)="volver()">
-          <i class="fas fa-arrow-circle-left"></i> Volver
+          <i class="fas fa-arrow-circle-left"></i> Return
         </button>
       </div>
       </div>

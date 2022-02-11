@@ -61,7 +61,7 @@ public class UserController {
 		try {					
 			user = userService.findUserByUserName(userName);
 			user.setPassword(null);
-			mensaje = "0 - Usuario entontrado";
+			mensaje = "0 - User found";
 			response.setMensaje(mensaje);
 			response.setPeticionExitosa(true);
 			response.setDatos(user);
@@ -69,7 +69,7 @@ public class UserController {
 			
 		}		
 		catch (Exception e) {
-			mensaje = "Ha fallado el sistema. Contacte al administrador";
+			mensaje = "There was an error. Contact the administrator.";
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
 			response.setMensaje(mensaje);
 			response.setPeticionExitosa(false);
@@ -96,14 +96,14 @@ public class UserController {
 			
 			userDetails.setPassword("");
 			
-			mensaje = "0 - Usuario actualizado correctamente";
+			mensaje = "0 - User updated successfully";
 			response.setMensaje(mensaje);
 			response.setPeticionExitosa(true);
 			response.setDatos(userDetails);
 			status = HttpStatus.OK;			
 		}		
 		catch (Exception e) {
-			mensaje = "Ha fallado el sistema. Contacte al administrador";
+			mensaje = "There was an error. Contact the administrator.";
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
 			response.setMensaje(mensaje +e);
 			response.setPeticionExitosa(false);
@@ -129,7 +129,7 @@ public class UserController {
 			user.setJwt(jwtUtils.generateToken(user.getUserName()));
 			
 			user.setPassword(null);
-			mensaje = "0 - Login exitoso para el usuario " + user.getUserName() + ".";
+			mensaje = "0 - Successful login for the user " + user.getUserName() + ".";
 			
 			response.setMensaje(mensaje);
 			response.setPeticionExitosa(true);
@@ -138,7 +138,7 @@ public class UserController {
 			
 		} catch (AuthenticationException e) {
 			
-			mensaje = "Usuario o clave incorrectos.";
+			mensaje = "Wrong username or password.";
 			status = HttpStatus.FORBIDDEN;
 			response.setMensaje(mensaje);
 			response.setPeticionExitosa(false);
@@ -146,7 +146,7 @@ public class UserController {
 			
 		} catch (Exception e) {
 			
-			mensaje = "Ha fallado el sistema. Contacte al administrador";
+			mensaje = "There was an error. Contact the administrator.";
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
 			response.setMensaje(mensaje);
 			response.setPeticionExitosa(false);
@@ -171,7 +171,7 @@ public class UserController {
 		try {
 
 			data = userService.add(user);
-			mensaje = "0 - Usuario creado con éxito";
+			mensaje = "0 - User created successfully";
 			
 			response.setMensaje(mensaje);
 			response.setPeticionExitosa(true);
@@ -209,9 +209,9 @@ public class UserController {
 				//atenticar de nuevo con la nueva contraseña y resetear token
 				user = userService.add(user);
 				user.setPassword(null);	
-				mensaje = "0 - Contraseña cambiada exitosamente";
+				mensaje = "0 - Password changed successfully";
 			} else {
-				mensaje = "1 - Usuario no encontrado, no se pudo cambiar contraseña";
+				mensaje = "1 - User not found, could not change password";
 				status = HttpStatus.NOT_MODIFIED;
 			}
 			
@@ -222,7 +222,7 @@ public class UserController {
 			
 		} catch (AuthenticationException e) {
 			
-			mensaje = "Clave no coincide con antigua contraseña.";
+			mensaje = "1 - Password does not match old password.";
 			status = HttpStatus.FORBIDDEN;
 			response.setMensaje(mensaje);
 			response.setPeticionExitosa(false);
@@ -232,7 +232,7 @@ public class UserController {
 		
 		catch (Exception e) {
 			
-			mensaje = "Ha fallado el sistema. Contacte al administrador";
+			mensaje = "There was an error. Contact the administrator.";
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
 			response.setMensaje(mensaje);
 			response.setPeticionExitosa(false);
