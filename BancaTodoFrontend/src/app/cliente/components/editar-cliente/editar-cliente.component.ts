@@ -16,9 +16,7 @@ export class EditarClienteComponent implements OnInit {
   dataIdentificacion = ['DNI','Passport','United States Passport card','US Social Security Number']
   valorSeleccion: string;
 
-  comparacion(item1:any, item2:any) {
-    return item1 && item2 ? item1 === item2 : item1 === item2;
-  }
+
 
   constructor(
     private clienteService: ClienteService,
@@ -98,4 +96,8 @@ export class EditarClienteComponent implements OnInit {
     )
 
 } */
+
+comparacion(item1:any, item2:any) {
+  return item1 && item2 ? item1 === item2 : item1 === item2;
+}
 }

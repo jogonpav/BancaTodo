@@ -15,32 +15,37 @@ import com.BancaTodo.UserFront.services.ClienteService;
 public class ClienteServiceImpl implements ClienteService{
 	
 	@Autowired
-	private ClienteRepository userDao;
+	private ClienteRepository clienteRepository;
 	
+	public ClienteServiceImpl(ClienteRepository clienteRepository) {
+		this.clienteRepository = clienteRepository;
+	}
+
+
 	@Override
 	public List<ClienteEntity> findAll()  throws Exception{
-		// TODO Auto-generated method stub
-		return (List<ClienteEntity>) userDao.findAll();
+		System.out.println((List<ClienteEntity>) clienteRepository.findAll());
+		return (List<ClienteEntity>) clienteRepository.findAll();
 	}
 	
 	@Override
 	public ClienteEntity getById(long id)  throws Exception{		
-		return userDao.findById(id);
+		return clienteRepository.findById(id);
 	}
 	
 	@Override
 	public ClienteEntity add(ClienteEntity cliente)  throws Exception{
-		return userDao.save(cliente);		
+		return clienteRepository.save(cliente);		
 	}
 	@Override
 	public void update(ClienteEntity cliente)  throws Exception{
-		userDao.save(cliente);
+		clienteRepository.save(cliente);
 		
 	}	
 
 	@Override
 	public void delete(long id) throws Exception{
-		userDao.deleteById(id);		
+		clienteRepository.deleteById(id);		
 	}
 
 }

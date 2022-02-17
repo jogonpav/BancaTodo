@@ -1,5 +1,5 @@
 package com.BancaTodo.UserFront.configuration;
-
+/*
 import java.io.IOException;
 
 import javax.servlet.FilterChain;
@@ -53,4 +53,4 @@ public class JwtFilters extends OncePerRequestFilter  {
 		filterChain.doFilter(request, response);
 	}
 
-}
+}*/

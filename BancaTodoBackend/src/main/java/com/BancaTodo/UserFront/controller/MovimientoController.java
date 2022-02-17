@@ -255,6 +255,7 @@ public class MovimientoController {
 			return mensajeRespuesta;
 			}		
 	}
+	
 	private GeneralResponse<?> valEstadosProductoDes(Optional<ProductoEntity> productoDestino) {
 		GeneralResponse mensajeRespuesta = new GeneralResponse<>();
 		if (productoDestino.get().getEstado().toLowerCase().equals("cancelled")) {
@@ -288,7 +289,6 @@ public class MovimientoController {
 				&& productoOrigen.get().getEstado().toLowerCase().equals("enabled") && saldoGMF >= -5000) {
 			saldoValidado = true;
 		}	
-		System.out.println(saldoGMF);
 		return saldoValidado;
 	}
 

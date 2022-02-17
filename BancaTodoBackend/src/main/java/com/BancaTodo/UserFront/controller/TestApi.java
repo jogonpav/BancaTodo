@@ -15,7 +15,7 @@ public class TestApi {
 
 @GetMapping  
 public String getXml() {
-   return "Hola estÃ¡s conectado al recurso inventarios desde mi API";
+   return "Hola estas conectado al recurso inventarios desde mi API";
 }
 
 	   

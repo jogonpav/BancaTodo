@@ -110,12 +110,7 @@ export class ConsignarComponentsComponent implements OnInit {
                 positionClass: 'toast-top-center',
               }
             );
-            this.router.navigate([
-              '/cliente/' +
-                this.clienteId +
-                '/cuenta/' +
-                this.cuentaId +
-                '/movimiento',
+            this.router.navigate([ '/cliente/' +   this.clienteId + '/cuenta/' +  this.cuentaId +  '/movimiento',
             ]);
           } else {
             this.toastr.warning(respuestaTransaction.mensaje, '¡Info!', {
