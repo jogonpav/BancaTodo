@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Cliente } from 'src/app/cliente/models/cliente';
 import { ClienteService } from 'src/app/cliente/services/cliente.service';
+import Swal from 'sweetalert2'
+import {Location} from '@angular/common'
 
 @Component({
   selector: 'app-nuevo-cliente',
@@ -22,8 +24,8 @@ export class NuevoClienteComponent implements OnInit {
 
   constructor(private clienteService: ClienteService,
     private toastr: ToastrService,
-    private router: Router //para redirigir si hay error
-    ) { }
+    private router: Router,
+    private location: Location) { }
 
   ngOnInit(): void {
   }
@@ -37,30 +39,40 @@ export class NuevoClienteComponent implements OnInit {
 
       if (respuesta.peticionExitosa) {
         if (respuesta.mensaje.charAt(0) == "0") {
-          this.toastr.success(respuesta.mensaje, 'Ok', {
-            timeOut: 4000,
-            positionClass: 'toast-top-center',
-          });
-
+          Swal.fire(
+            'Success',
+            respuesta.mensaje,
+            'success'
+            );
         }else{
-          this.toastr.warning(respuesta.mensaje, '¡Info!', {
-            timeOut: 4000,
-            positionClass: 'toast-top-center',
-          });
+          Swal.fire(
+            'Alert',
+            respuesta.mensaje,
+            'warning'
+          );
         }
       }
-
-        this.router.navigate(['/listar']);
-
+      this.return();
       }, err =>{
-        this.toastr.error(err.error.mensaje,'Fail',{
-          timeOut:4000, positionClass: 'toast-top-center',
-        });
-        this.router.navigate(['/listar']);
-
+        Swal.fire(
+          '¡Error!',
+          err.error.mensaje,
+          'error'
+        );
+        this.return();
       }
     )
+  }
 
+  return(){
+      this.location.back();
   }
 
 }
+
+/*
+this.toastr.error(err.error.mensaje,'Fail',{
+timeOut:4000, positionClass: 'toast-top-center',
+});
+this.router.navigate(['/listar']);
+*/

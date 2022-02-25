@@ -48,13 +48,13 @@
                 required
               />
             </div>
-            <button type="submit" class="btn btn-success" [disabled]="!f.valid">
+            <button type="submit" class="btn btn-success w-100" [disabled]="!f.valid">
               Update
             </button>
-            <button class="btn btn-outline-primary ms-3" routerLink="/listar">
-              Return
-            </button>
           </form>
+          <button class="btn btn-outline-primary mt-2 w-100" (click)="return()" >
+            <i class="fas fa-arrow-circle-left"></i> Return
+          </button>
         </div>
       </div>
     </div>

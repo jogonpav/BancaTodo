@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Accounts } from 'src/app/accounts/models/accounts';
 import { AccountsService } from 'src/app/accounts/services/accounts.service';
+import Swal from 'sweetalert2';
 import { Transaction } from '../../models/transaction';
 import { TransactionsService } from '../../services/transactions.service';
 
@@ -104,16 +105,7 @@ export class TransferirComponentsComponent implements OnInit {
       (respuesta) => {
         if (respuesta.peticionExitosa) {
           if (respuesta.mensaje.charAt(0) == '0') {
-           /*  this.toastr.success(respuesta.mensaje, '¡Satisfactorio!', {
-              timeOut: 4000,
-              positionClass: 'toast-top-center',
-            }); */
             this.accountsBetween = respuesta.datos;
-          } else {
-           /*  this.toastr.warning(respuesta.mensaje, '¡Info!', {
-              timeOut: 4000,
-              positionClass: 'toast-top-center',
-            }); */
           }
         }
       },
@@ -131,16 +123,7 @@ export class TransferirComponentsComponent implements OnInit {
     (respuesta) => {
       if (respuesta.peticionExitosa) {
         if (respuesta.mensaje.charAt(0) == '0') {
-          /* this.toastr.success(respuesta.mensaje, '¡Satisfactorio!', {
-            timeOut: 4000,
-            positionClass: 'toast-top-center',
-          }); */
           this.otherAccounts = respuesta.datos;
-        } else {
-          /* this.toastr.warning(respuesta.mensaje, '¡Info!', {
-            timeOut: 4000,
-            positionClass: 'toast-top-center',
-          }); */
         }
       }
     },
@@ -171,13 +154,10 @@ export class TransferirComponentsComponent implements OnInit {
       (respuestaTransaction) => {
         if (respuestaTransaction.peticionExitosa) {
           if (respuestaTransaction.mensaje.charAt(0) == '0') {
-           this.toastr.success(
+            Swal.fire(
+              'Success!',
               respuestaTransaction.mensaje,
-              '¡Satisfactorio!',
-              {
-                timeOut: 4000,
-                positionClass: 'toast-top-center',
-              }
+              'success'
             );
             this.router.navigate([
               '/cliente/' +
@@ -187,25 +167,21 @@ export class TransferirComponentsComponent implements OnInit {
                 '/movimiento',
             ]);
           } else {
-            this.toastr.warning(respuestaTransaction.mensaje, '¡Info!', {
-              timeOut: 4000,
-              positionClass: 'toast-top-center',
-            });
-            this.router.navigate([
-              '/cliente/' +
-                this.clienteId +
-                '/cuenta/' +
-                this.cuentaId +
-                '/movimiento',
-            ]);
+            Swal.fire(
+              'Warning!',
+              respuestaTransaction.mensaje,
+              'warning'
+            );
           }
         }
       },
       (err) => {
-        this.toastr.error(err.error.mensaje, '¡Error!', {
-          timeOut: 4000,
-          positionClass: 'toast-top-center',
-        });
+        Swal.fire(
+          'Error!',
+          err.error.mensaje,
+          'error'
+        );
+
       }
     );
   }
@@ -227,14 +203,11 @@ export class TransferirComponentsComponent implements OnInit {
       (respuestaTransaction) => {
         if (respuestaTransaction.peticionExitosa) {
           if (respuestaTransaction.mensaje.charAt(0) == '0') {
-           /*  this.toastr.success(
+            Swal.fire(
+              'Success!',
               respuestaTransaction.mensaje,
-              '¡Satisfactorio!',
-              {
-                timeOut: 4000,
-                positionClass: 'toast-top-center',
-              }
-            ); */
+              'success'
+            );
             this.router.navigate([
               '/cliente/' +
                 this.clienteId +
@@ -243,25 +216,20 @@ export class TransferirComponentsComponent implements OnInit {
                 '/movimiento',
             ]);
           } else {
-            this.toastr.warning(respuestaTransaction.mensaje, '¡Info!', {
-              timeOut: 4000,
-              positionClass: 'toast-top-center',
-            });
-            this.router.navigate([
-              '/cliente/' +
-                this.clienteId +
-                '/cuenta/' +
-                this.cuentaId +
-                '/movimiento',
-            ]);
+            Swal.fire(
+              'Warning!',
+              respuestaTransaction.mensaje,
+              'warning'
+            );
           }
         }
       },
       (err) => {
-        this.toastr.error(err.error.mensaje, '¡Error!', {
-          timeOut: 4000,
-          positionClass: 'toast-top-center',
-        });
+        Swal.fire(
+          'Error!',
+          err.error.mensaje,
+          'error'
+        );
       }
     );
   }

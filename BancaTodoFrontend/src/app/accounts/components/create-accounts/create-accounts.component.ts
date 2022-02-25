@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import Swal from 'sweetalert2';
 import { Accounts } from '../../models/accounts';
 import { AccountsService } from '../../services/accounts.service';
 
@@ -48,25 +49,27 @@ export class CreateAccountsComponent implements OnInit {
      respuesta =>{
       if (respuesta.peticionExitosa) {
         if (respuesta.mensaje.charAt(0) == "0") {
-          this.toastr.success(respuesta.mensaje, 'Ok', {
-            timeOut: 4000,
-            positionClass: 'toast-top-center',
-          });
-
+          Swal.fire(
+            'Success!',
+            respuesta.mensaje,
+            'success'
+          );
         }else{
-          this.toastr.warning(respuesta.mensaje, '¡Info!', {
-            timeOut: 4000,
-            positionClass: 'toast-top-center',
-          });
+          Swal.fire(
+            'Warning!',
+            respuesta.mensaje,
+            'warning'
+          );
         }
         this.router.navigate(['/cliente/'+this.clienteId +'/detalle']);
       }
       }, err =>{
-        this.toastr.error(err.error.mensaje,'Fail2',{
-          timeOut:4000, positionClass: 'toast-top-center',
-        });
+        Swal.fire(
+          'Error!',
+          err.error.mensaje,
+          'error'
+        );
         this.router.navigate(['/cliente/'+this.clienteId +'/detalle']);
-
       }
     )
 

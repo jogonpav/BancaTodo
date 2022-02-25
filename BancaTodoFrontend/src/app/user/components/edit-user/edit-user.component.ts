@@ -4,6 +4,8 @@ import { ToastrService } from 'ngx-toastr';
 import { GlobalService } from 'src/app/shared/services/global.service';
 import { User } from '../../models/user';
 import { UserService } from '../../services/user.service';
+import {Location} from '@angular/common'
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-edit-user',
@@ -18,12 +20,12 @@ export class EditUserComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private toastr: ToastrService,
     private router: Router,
-    private globalService: GlobalService
+    private globalService: GlobalService,
+    private location: Location
     ) { }
 
   ngOnInit(): void {
 
-    console.log(this.globalService.user.userName);
     this.userService.detail(this.globalService.user.userName).subscribe(
       (respuesta) => {
         if (respuesta.peticionExitosa) {
@@ -36,7 +38,8 @@ export class EditUserComponent implements OnInit {
           timeOut: 4000,
           positionClass: 'toast-top-center',
         });
-        this.router.navigate(['/listar']);
+        //this.router.navigate(['/listar']);
+        this.return();
       }
     );
 
@@ -48,28 +51,36 @@ export class EditUserComponent implements OnInit {
         if (respuesta.peticionExitosa) {
           console.log(respuesta.mensaje.charAt(0));
           if (respuesta.mensaje.charAt(0) == "0") {
-            this.toastr.success(respuesta.mensaje, 'Ok', {
-              timeOut: 4000,
-              positionClass: 'toast-top-center',
-            });
+            Swal.fire(
+              'Success!',
+              respuesta.mensaje,
+              'success'
+            );
           }else{
-            this.toastr.success(respuesta.mensaje, '¡Info!', {
-              timeOut: 4000,
-              positionClass: 'toast-top-center',
-            });
-
+            Swal.fire(
+              'Warning!',
+              respuesta.mensaje,
+              'warning'
+            );
           }
         }
-        this.router.navigate(['/listar']);
+        //this.router.navigate(['/listar']);
+        this.return();
       },
       (err) => {
-        this.toastr.error(err.error.mensaje, 'Fail', {
-          timeOut: 4000,
-          positionClass: 'toast-top-center',
-        });
-        this.router.navigate(['/listar']);
+        Swal.fire(
+          'Error!',
+          err.error.mensaje,
+          'error'
+        );
+        //this.router.navigate(['/listar']);
+        this.return();
       }
     );
   }
+
+  return(){
+    this.location.back();
+}
 
 }

@@ -1,131 +1,73 @@
-<div class="container">
-  <h2 class="text-center mt-5">accounts list</h2>
-  <table class="table">
-    <thead class="text-center">
-      <tr>
-        <th scope="col">Account type</th>
-        <th scope="col">Account Number</th>
-        <th scope="col">Status</th>
-        <th scope="col">Opening date</th>
-        <th scope="col">Balance</th>
-        <th scope="col">Movements</th>
-        <th scope="col">Deposit</th>
-        <th scope="col">Withdrawal</th>
-        <th scope="col">Transfer</th>
-        <th scope="col">Status</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let account of accounts">
-        <td>{{ account.tipoCuenta }}</td>
-        <td>{{ account.numeroCuenta }}</td>
-        <td>{{ account.estado }}</td>
-        <td>{{ account.fechaApertura }}</td>
-        <td>US${{ account.saldo }}</td>
-        <td>
-          <button
-            class="btn btn-outline-success"
-            routerLink="/cliente/{{ clienteId }}/cuenta/{{
-              account.id
-            }}/movimiento"
-          >
-            <i
-              class="fas fa-eye"
-              routerLink="/cliente/{{ clienteId }}/cuenta/{{
-                account.id
-              }}/movimiento"
-            ></i>
-            Show
-          </button>
-        </td>
-        <td>
-          <div
-            *ngIf="account.estado == 'cancelled'; else elseBlokConsignar"
-          ></div>
-          <ng-template #elseBlokConsignar>
-            <button
-              class="btn btn-outline-primary"
-              (click)="consignar(clienteId, account)"
-            >
-              <i
-                class="fas fa-wallet"
-                (click)="consignar(clienteId, account)"
-              ></i>
 
-              Deposit
-            </button>
-          </ng-template>
-        </td>
-        <td>
-          <div
-            *ngIf="
-              account.estado == 'cancelled' || account.estado == 'disabled';
-              else elseBlokRetirar
-            "></div>
-          <ng-template #elseBlokRetirar>
-            <button
-              class="btn btn-outline-warning"
-              (click)="retirar(clienteId, account)"
-            ><i class="fas fa-hand-holding-usd"></i> Withdrawal
-            </button>
-          </ng-template>
-        </td>
-        <td>
-          <div
-            *ngIf="
-              account.estado == 'cancelled' || account.estado == 'disabled';
-              else elseBlokTransferir
-            "
-          ></div>
-          <ng-template #elseBlokTransferir>
-            <button
-              class="btn btn-outline-secondary"
-              (click)="transferir(clienteId, account)"
-            >
-              <i class="fas fa-money-check-alt"></i> Transfer
-            </button>
-          </ng-template>
-        </td>
-        <td>
-          <div *ngIf="account.estado == 'enabled'; else elseBlok">
-            <button
-              type="button"
-              class="btn btn-danger"
-              (click)="desactivar(account.id, account)"
-            >
-              <i class="fas fa-toggle-on"></i> Disable
-            </button>
-            <button
-              type="button"
-              class="btn btn-secondary ms-1"
-              (click)="cancelar(account.id, account)"
-            >
-              <i class="fas fa-power-off"></i> Cancel
-            </button>
+  <div class="center container-card align-items-start">
+      <div class="card p-3 py-2 ms-1 mb-1"
+      [ngClass]="{
+        'l-bg-blue-dark': account.tipoCuenta === 'Current',
+        'l-bg-green-dark': account.tipoCuenta === 'Savings'
+      }" *ngFor="let account of accounts"
+      >
+          <div class="d-flex justify-content-between "> <img class="mt-1" src="./assets/bank-01-escalada.png" width="100" >
+              <div *ngIf="account.estado == 'cancelled'; else elseCheckBox">
+                <div class="form-check form-switch"> Cancelled</div>
+              </div>
+              <ng-template #elseCheckBox>
+                <div class="form-check form-switch"> <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" (change)="isChecked(account.id, account)" #mycheckbox type="checkbox" [checked]="account.estado == 'enabled'"> {{account.estado}}</div>
+              </ng-template>
+              <!-- <div class="form-check form-switch"> <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" (change)="isChecked(account.id, account)" #mycheckbox type="checkbox" [checked]="account.estado == 'enabled'" [disabled]="account.estado == 'cancelled'"> dfd</div> -->
+
           </div>
-          <ng-template #elseBlok>
-            <div
-              *ngIf="account.estado == 'cancelled'; else elseBlockCancelado"
-            ></div>
-            <ng-template #elseBlockCancelado>
+          <div class="mt-2">
+              <h6 class="mb-0">{{ account.tipoCuenta }} Account</h6> <span class="fs-2 fw-bold">US$ {{ account.saldo }}</span>
+          </div>
+          <div class="mt-3">
+              <div class="d-flex flex-row"> <img src="./assets/user.png" class="rounded-circle" width="50">
+                  <div class="d-flex flex-column ms-3"> <span class="fs-6 text-blue-700" style="text-transform:uppercase"  >{{customerName}} </span>
+                    <div class="d-flex flex-row">
+                      <span class="fw-bold">{{ account.numeroCuenta }}</span>
+                  </div>
+                  </div>
+
+              </div>
+          </div>
+
+        <div class="mt-4 d-flex flex-row gap-2 align-items-center" *ngIf="account.estado == 'cancelled'; else elseButtonCancelled">
+          <button
+          class="btn btn-success ms-1 h-45 text-uppercase"
+          routerLink="/cliente/{{ clienteId }}/cuenta/{{ account.id }}/movimiento" >
+          <i class="fas fa-eye" routerLink="/cliente/{{ clienteId }}/cuenta/{{ account.id }}/movimiento" ></i> Movements </button>
+          </div>
+
+          <ng-template #elseButtonCancelled>
+            <div class="mt-4 d-flex flex-row gap-2 align-items-center" *ngIf="account.estado == 'disabled'; else elseButtonDisabled">
               <button
-                class="btn btn-success"
-                (click)="activar(account.id, account)"
-              >
-                <i class="fas fa-toggle-off"></i> Enable
-              </button>
-              <button
-              type="button"
-              class="btn btn-secondary ms-1"
-              (click)="cancelar(account.id, account)"
-            >
-              <i class="fas fa-power-off"></i> Cancel
-            </button>
+              class="btn btn-success ms-1 h-45 text-uppercase"
+              routerLink="/cliente/{{ clienteId }}/cuenta/{{ account.id }}/movimiento" >
+              <i class="fas fa-eye" routerLink="/cliente/{{ clienteId }}/cuenta/{{ account.id }}/movimiento" ></i> Movements </button>
+              <button class="btn btn-primary h-45 text-uppercase" (click)="consignar(clienteId, account)" >
+              <i class="fas fa-wallet" (click)="consignar(clienteId, account)" ></i> Deposit </button>
+            </div>
+            <ng-template #elseButtonDisabled>
+              <div class="mt-4 d-flex flex-row gap-2 align-items-center justify-content-center">
+              <button class="btn btn-primary h-45 text-uppercase" (click)="consignar(clienteId, account)">
+              <i class="fas fa-wallet" (click)="consignar(clienteId, account)"></i> Deposit</button>
+            <button class="btn btn-warning h-45 text-uppercase" (click)="retirar(clienteId, account)" >
+              <i class="fas fa-hand-holding-usd"></i> Withdrawal </button>
+
+            <button class="btn btn-secondary h-45 text-uppercase" (click)="transferir(clienteId, account)" >
+              <i class="fas fa-money-check-alt"></i> Transfer</button>
+          </div>
+          <div class="mt-2 d-flex flex-row gap-2 align-items-center justify-content-center">
+            <button  type="button" class="btn btn-danger ms-1 w-25 h-45 text-uppercase" (click)="cancelar(account.id, account)">
+            <i class="fas fa-power-off"></i> Cancel</button>
+          <button
+          class="btn btn-success ms-1 h-45 text-uppercase"
+          routerLink="/cliente/{{ clienteId }}/cuenta/{{ account.id }}/movimiento" >
+          <i class="fas fa-eye" routerLink="/cliente/{{ clienteId }}/cuenta/{{ account.id }}/movimiento" ></i> Movements </button>
+        </div>
+
+
             </ng-template>
+
           </ng-template>
-        </td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-</div>
+      </div>
+  </div>

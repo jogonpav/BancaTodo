@@ -85,8 +85,11 @@
                 required
               />
             </div>
-            <button class="btn btn-primary" [disabled]="!f.valid">Add</button>
+            <button class="btn btn-success w-100" [disabled]="!f.valid">Add</button>
           </form>
+          <button class="btn btn-outline-primary mt-2 w-100" (click)="return()" >
+            <i class="fas fa-arrow-circle-left"></i> Return
+          </button>
         </div>
       </div>
     </div>

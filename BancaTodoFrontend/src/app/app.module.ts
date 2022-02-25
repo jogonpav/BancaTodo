@@ -33,6 +33,9 @@ import { HttpConfigInterceptor } from './core/HttpConfigInterceptor';
 import { CreateUserComponent } from './user/components/create-user/create-user.component';
 import { EditUserComponent } from './user/components/edit-user/edit-user.component';
 import { ResetPasswordComponent } from './user/components/reset-password/reset-password.component';
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+
+
 
 
 @NgModule({
@@ -55,6 +58,7 @@ import { ResetPasswordComponent } from './user/components/reset-password/reset-p
     ResetPasswordComponent,
 
 
+
   ],
   imports: [
     BrowserModule,
@@ -71,7 +75,8 @@ import { ResetPasswordComponent } from './user/components/reset-password/reset-p
     MatDividerModule,
     MatButtonModule,
     MatDialogModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    SweetAlert2Module.forRoot()
   ],
   providers: [{provide: HTTP_INTERCEPTORS,useClass: HttpConfigInterceptor, multi:true}],
   bootstrap: [AppComponent]

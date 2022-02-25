@@ -5,6 +5,7 @@ import { GlobalService } from 'src/app/shared/services/global.service';
 import { User } from '../../models/user';
 import { UserService } from '../../services/user.service';
 import {Location} from '@angular/common'
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -42,24 +43,28 @@ export class CreateUserComponent implements OnInit {
      respuesta =>{
       if (respuesta.peticionExitosa) {
         if (respuesta.mensaje.charAt(0) == "0") {
-          this.toastr.success(respuesta.mensaje, 'Ok', {
-            timeOut: 4000,
-            positionClass: 'toast-top-center',
-          });
-
+          Swal.fire(
+            'Success!',
+            respuesta.mensaje,
+            'success'
+          );
         }else{
-          this.toastr.warning(respuesta.mensaje, '¡Info!', {
-            timeOut: 4000,
-            positionClass: 'toast-top-center',
-          });
+          Swal.fire(
+            'Warning!',
+            respuesta.mensaje,
+            'warning'
+          );
         }
       }
       this.return();
         //this.router.navigate(['/login']);
       }, err =>{
-        this.toastr.error(err.error.mensaje,'Fail',{
-          timeOut:4000, positionClass: 'toast-top-center',
-        });
+
+        Swal.fire(
+          'Error!',
+          err.error.mensaje,
+          'error'
+        );
         //this.router.navigate(['/listar']);
         this.return();
 

@@ -1,0 +1,34 @@
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh
+}
+.container-card{
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.card {
+  width: 420px;
+  height: 325px;
+  border: 1px solid #000
+}
+
+
+
+.h-45 {
+  height: 45px;
+  font-size: 14px
+}
+
+
+.l-bg-blue-dark {
+  background: linear-gradient(to right, #2e3533, #065055) !important;
+  color: #fff;
+}
+
+.l-bg-green-dark {
+  background: linear-gradient(to right,#212903 ,#5f531e) !important;
+  color: #fff;
+}

@@ -4,6 +4,8 @@ import { ToastrService } from 'ngx-toastr';
 import { GlobalService } from 'src/app/shared/services/global.service';
 import { UserDto } from '../../models/user-dto';
 import { UserService } from '../../services/user.service';
+import {Location} from '@angular/common';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-reset-password',
@@ -21,7 +23,8 @@ export class ResetPasswordComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private toastr: ToastrService,
     private router: Router,
-    private globalService: GlobalService
+    private globalService: GlobalService,
+    private location: Location
   ) { }
 
   ngOnInit(): void {
@@ -33,22 +36,49 @@ export class ResetPasswordComponent implements OnInit {
       (respuesta) => {
         if (respuesta.peticionExitosa) {
           if (respuesta.mensaje.charAt(0) == "0") {
-            this.toastr.success(respuesta.mensaje, 'Ok', {
-              timeOut: 4000,
-              positionClass: 'toast-top-center',
-            });
+            Swal.fire(
+              'Success!',
+              respuesta.mensaje,
+              'success'
+            );
           }else{
-            this.toastr.success(respuesta.mensaje, '¡Info!', {
-              timeOut: 4000,
-              positionClass: 'toast-top-center',
-            });
+            Swal.fire(
+              'Warning!',
+              respuesta.mensaje,
+              'warning'
+            );
           }
         }
-        this.router.navigate(['/listar']);
+        //this.router.navigate(['/listar']);
+        this.return();
       },
       (err) => {
-        console.log(err.error.mensaje.charAt(0));
-        if (err.error.mensaje.charAt(0) == "1") {
+        Swal.fire(
+          'Error!',
+          err.error.mensaje,
+          'error'
+        );
+
+      }
+    );
+  }
+
+ logout(): void {
+
+    this.globalService = new GlobalService();
+
+    this.isLogged = false;
+    this.router.navigate(['/listar'])
+
+  } 
+
+  return(){
+    this.location.back();
+}
+
+}
+
+ /* if (err.error.mensaje.charAt(0) == "1") {
           this.toastr.error(err.error.mensaje, 'Ok', {
             timeOut: 4000,
             positionClass: 'toast-top-center',
@@ -58,19 +88,6 @@ export class ResetPasswordComponent implements OnInit {
             timeOut: 4000,
             positionClass: 'toast-top-center',
           });
-          this.router.navigate(['/listar']);
-        }
-      }
-    );
-  }
-
-  logout(): void {
-
-    this.globalService = new GlobalService();
-
-    this.isLogged = false;
-    this.router.navigate(['/listar'])
-
-  }
-
-}
+          //this.router.navigate(['/listar']);
+          this.return();
+        } */

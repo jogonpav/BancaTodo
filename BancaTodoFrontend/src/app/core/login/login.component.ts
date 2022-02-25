@@ -27,7 +27,7 @@ export class LoginComponent implements OnInit {
     private globalService: GlobalService) { }
 
   ngOnInit(): void {
-    console.log(this.globalService);
+   
     this.initForm();
   }
 

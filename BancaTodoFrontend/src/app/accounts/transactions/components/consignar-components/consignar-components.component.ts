@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Accounts } from 'src/app/accounts/models/accounts';
 import { AccountsService } from 'src/app/accounts/services/accounts.service';
+import Swal from 'sweetalert2';
 import { Transaction } from '../../models/transaction';
 import { TransactionsService } from '../../services/transactions.service';
 
@@ -56,10 +57,6 @@ export class ConsignarComponentsComponent implements OnInit {
       (respuesta) => {
         if (respuesta.peticionExitosa) {
           if (respuesta.mensaje.charAt(0) == '0') {
-            /* this.toastr.success(respuesta.mensaje, '¡Satisfactorio!', {
-              timeOut: 4000,
-              positionClass: 'toast-top-center',
-            }); */
             this.account = respuesta.datos;
             this.tipoCuenta = this.account.tipoCuenta;
             this.numeroCuenta = this.account.numeroCuenta;
@@ -80,6 +77,7 @@ export class ConsignarComponentsComponent implements OnInit {
           timeOut: 4000,
           positionClass: 'toast-top-center',
         });
+
         this.volver();
       }
     );
@@ -102,36 +100,28 @@ export class ConsignarComponentsComponent implements OnInit {
       (respuestaTransaction) => {
         if (respuestaTransaction.peticionExitosa) {
           if (respuestaTransaction.mensaje.charAt(0) == '0') {
-            this.toastr.success(
+            Swal.fire(
+              'Success!',
               respuestaTransaction.mensaje,
-              '¡Satisfactorio!',
-              {
-                timeOut: 4000,
-                positionClass: 'toast-top-center',
-              }
+              'success'
             );
             this.router.navigate([ '/cliente/' +   this.clienteId + '/cuenta/' +  this.cuentaId +  '/movimiento',
             ]);
           } else {
-            this.toastr.warning(respuestaTransaction.mensaje, '¡Info!', {
-              timeOut: 4000,
-              positionClass: 'toast-top-center',
-            });
-            this.router.navigate([
-              '/cliente/' +
-                this.clienteId +
-                '/cuenta/' +
-                this.cuentaId +
-                '/movimiento',
-            ]);
+            Swal.fire(
+              'Warning!',
+              respuestaTransaction.mensaje,
+              'warning'
+            );
           }
         }
       },
       (err) => {
-        this.toastr.error(err.error.mensaje, '¡Error!', {
-          timeOut: 4000,
-          positionClass: 'toast-top-center',
-        });
+        Swal.fire(
+          'Error!',
+          err.error.mensaje,
+          'error'
+        );
       }
     );
   }

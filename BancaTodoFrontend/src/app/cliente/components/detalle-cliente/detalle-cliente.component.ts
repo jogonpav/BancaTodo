@@ -22,27 +22,23 @@ export class DetalleClienteComponent implements OnInit {
   ngOnInit(): void {
     const id = this.activatedRoute.snapshot.params['id'];
 
-    this.activatedRoute.params.subscribe((params) => {
-      console.log(params);
-    });
+    this.loadDetails(id);
 
+  }
+
+  loadDetails(id: any): void {
     this.clienteService.detail(id).subscribe(
       (respuesta) => {
         if (respuesta.peticionExitosa) {
-          if (respuesta.mensaje.charAt(0) == '0') {
-            /* this.toastr.success(respuesta.mensaje, '¡Satisfactoria!', {
-              timeOut: 4000,
-              positionClass: 'toast-top-center',
-            }); */
-          } else {
+          if (!(respuesta.mensaje.charAt(0) == '0')) {
             this.toastr.warning(respuesta.mensaje, '¡Info!', {
               timeOut: 4000,
               positionClass: 'toast-top-center',
             });
           }
         }
-
         this.cliente = respuesta.datos;
+        localStorage.setItem('customerName', this.cliente.nombres + ' ' + this.cliente.apellidos)
       },
       (err) => {
         this.toastr.error(err.error.mensaje, 'Fail', {
@@ -53,7 +49,14 @@ export class DetalleClienteComponent implements OnInit {
       }
     );
   }
+
   volver(): void {
     this.router.navigate(['/listar']);
   }
 }
+//otra manera de recibir datos de otro componente
+/*
+this.activatedRoute.params.subscribe((params) => {
+  console.log(params);
+});
+*/
